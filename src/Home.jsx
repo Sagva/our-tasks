@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
 import { collection, getDocs } from "firebase/firestore";
 
-
 const Home = () => {
   const [project, setProjects] = useState();
-
-
 
   const getingData = async () => {
     const ref = collection(db, "projects");
@@ -25,7 +22,7 @@ const Home = () => {
     getingData();
   }, []);
 
-  return <div></div>;
+  return <div>This is home page</div>;
 };
 
 export default Home;
