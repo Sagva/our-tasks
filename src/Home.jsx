@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
 import { collection, getDocs } from "firebase/firestore";
 
+
 const Home = () => {
   const [project, setProjects] = useState();
+
+
 
   const getingData = async () => {
     const ref = collection(db, "projects");
@@ -21,6 +24,7 @@ const Home = () => {
   useEffect(() => {
     getingData();
   }, []);
+
   return <div></div>;
 };
 
