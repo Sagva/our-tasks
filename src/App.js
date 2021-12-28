@@ -7,10 +7,12 @@ import LoginPage from "./pages/Authentication/LoginPage";
 import SignupPage from "./pages/Authentication/SignupPage";
 import ForgotPasswordPage from "./pages/Authentication/ForgotPasswordPage";
 import LogoutPage from "./pages/Authentication/LogoutPage";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <div className="App">
+      <Navbar />
       <Container id="App" className="py-3">
         <Routes>
           <Route path="/" element={<Home />} />

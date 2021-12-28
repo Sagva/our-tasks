@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Row, Col, Form, Button, Card, Alert } from "react-bootstrap";
+import { Row, Col, Form, Card, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import * as S from "./style";
@@ -31,7 +31,7 @@ const LoginPage = () => {
     <>
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
-          <div className="text-center pt-5">
+          <div className="text-center">
             <h2>Welcome to OurTask</h2>
             <span>Project managment system</span>
             <p className="pt-5 fw-bold fs-5">
