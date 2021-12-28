@@ -1,11 +1,13 @@
-import React, { useRef, useState } from "react";
-import { Row, Col, Form, Button, Card, Alert } from "react-bootstrap";
+import React, {  useRef, useState } from "react";
+import { Row, Col, Form, Card, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 import * as S from "./style";
+import { updateProfile } from "firebase/auth";
 
 const SignupPage = () => {
   const emailRef = useRef();
+  const nameRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const [error, setError] = useState(null);
@@ -26,7 +28,15 @@ const SignupPage = () => {
     // try to sign up the user with the specified credentials
     try {
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      let userCredentials = await signup(
+        emailRef.current.value,
+        passwordRef.current.value
+      );
+
+      await updateProfile(userCredentials.user, {
+        displayName: nameRef.current.value,
+      });
+
       navigate(`/`);
     } catch (e) {
       setError(e.message);
@@ -54,6 +64,10 @@ const SignupPage = () => {
                 <Form.Group id="email" className="mb-3">
                   <Form.Label>Email</Form.Label>
                   <Form.Control type="email" ref={emailRef} required />
+                </Form.Group>
+                <Form.Group id="name" className="mb-3">
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control type="text" ref={nameRef} required />
                 </Form.Group>
 
                 <Form.Group id="password" className="mb-3">
