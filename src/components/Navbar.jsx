@@ -9,6 +9,7 @@ import { NavDropdown } from "react-bootstrap";
 
 const Navigation = () => {
   const { currentUser } = useAuthContext();
+  console.log(`currentUser`, currentUser);
   return (
     <Navbar expand="md">
       <Container>

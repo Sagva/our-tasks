@@ -1,4 +1,4 @@
-import React, {  useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Row, Col, Form, Card, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
@@ -28,15 +28,11 @@ const SignupPage = () => {
     // try to sign up the user with the specified credentials
     try {
       setLoading(true);
-      let userCredentials = await signup(
+      await signup(
         emailRef.current.value,
-        passwordRef.current.value
+        passwordRef.current.value,
+        nameRef.current.value
       );
-
-      await updateProfile(userCredentials.user, {
-        displayName: nameRef.current.value,
-      });
-
       navigate(`/`);
     } catch (e) {
       setError(e.message);

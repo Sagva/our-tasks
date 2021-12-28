@@ -5,8 +5,10 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 const AuthContext = createContext();
 
@@ -18,8 +20,26 @@ const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const signup = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const signup = async (email, password, name) => {
+    // signup
+    let userCredentials = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    console.log(`userCredentials.user`, userCredentials.user);
+    
+    // Add display name to user
+    await updateProfile(userCredentials.user, {
+      displayName: name,
+    });
+
+    // create a user document in users collection
+    await setDoc(doc(db, "users", userCredentials.user.uid), {
+      name: userCredentials.user.displayName,
+    });
+    
   };
 
   const login = (email, password) => {
