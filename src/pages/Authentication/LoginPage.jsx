@@ -20,7 +20,7 @@ const LoginPage = () => {
     try {
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
-      navigate(`/`);
+      navigate(`/projects`);
     } catch (e) {
       setError(e.message);
       setLoading(false);
