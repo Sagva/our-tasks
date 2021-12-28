@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { Row, Col, Form, Button, Card, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
+import * as S from "./style";
 
 const SignupPage = () => {
   const emailRef = useRef();
@@ -37,10 +38,16 @@ const SignupPage = () => {
     <>
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
+          <div className="text-center">
+            <h2>Welcome to OurTask</h2>
+            <span>Project managment system</span>
+            <p className="pt-5 fw-bold fs-5">
+              Please register an account or log in to see and create your
+              projects
+            </p>
+          </div>
           <Card>
             <Card.Body>
-              <Card.Title className="mb-3">Sign Up</Card.Title>
-
               {error && <Alert variant="danger">{error}</Alert>}
 
               <Form onSubmit={handleSubmit}>
@@ -63,9 +70,14 @@ const SignupPage = () => {
                   />
                 </Form.Group>
 
-                <Button disabled={loading} type="submit">
-                  Create Account
-                </Button>
+                <div className="d-flex flex-column align-items-center">
+                  <S.ButtonOutline disabled={loading} type="submit">
+                    Register
+                  </S.ButtonOutline>
+                  <S.ButtonSolid>
+                    <Link to={`/login`}>Log In</Link>
+                  </S.ButtonSolid>
+                </div>
               </Form>
 
               <div className="text-center mt-3">
@@ -73,10 +85,6 @@ const SignupPage = () => {
               </div>
             </Card.Body>
           </Card>
-
-          <div className="text-center mt-3">
-            Already have an account? <Link to={`/login`}>Log In</Link>
-          </div>
         </Col>
       </Row>
     </>

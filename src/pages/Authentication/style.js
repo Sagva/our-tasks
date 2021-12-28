@@ -11,7 +11,7 @@ export const Button = styled.button`
   cursor: pointer;
   transition: all 0.2s;
   margin: 0.5rem;
-  width: 6.5rem;
+  min-width: 6.5rem;
 `;
 
 export const ButtonOutline = styled(Button)`
