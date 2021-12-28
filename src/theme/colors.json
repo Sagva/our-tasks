@@ -1,0 +1,30 @@
+{
+  "primary": {
+    "color": "#0942AD",
+    "onColor": "#fff"
+  },
+  "primary_variant": {
+    "color": "#BECDE8",
+    "onColor": "##0f0f0f"
+  },
+  "primary_accent": {
+    "color": "#707F9C",
+    "onColor": "#fff"
+  },
+  "accent": {
+    "color": "#9C8960",
+    "onColor": "#fff"
+  },
+  "accent_dark": {
+    "color": "#78694a",
+    "onColor": "#fff"
+  },
+  "secondary_accent": {
+    "color": "#E8DBBE",
+    "onColor": "#0f0f0f"
+  },
+  "background": {
+    "color": " #EBF2FF",
+    "onColor": "#0f0f0f"
+  }
+}

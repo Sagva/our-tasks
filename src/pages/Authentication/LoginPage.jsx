@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import { Row, Col, Form, Button, Card, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuthContext } from "../contexts/AuthContext";
+import { useAuthContext } from "../../contexts/AuthContext";
+import * as S from "./style";
 
 const LoginPage = () => {
   const emailRef = useRef();
@@ -30,12 +31,16 @@ const LoginPage = () => {
     <>
       <Row>
         <Col md={{ span: 6, offset: 3 }}>
+          <div className="text-center pt-5">
+            <h2>Welcome to OurTask</h2>
+            <span>Project managment system</span>
+            <p className="pt-5 fw-bold fs-5">
+              Please log in to see and create your projects
+            </p>
+          </div>
           <Card>
             <Card.Body>
-              <Card.Title className="mb-3">Log In</Card.Title>
-
               {error && <Alert variant="danger">{error}</Alert>}
-
               <Form onSubmit={handleSubmit}>
                 <Form.Group id="email" className="mb-3">
                   <Form.Label>Email</Form.Label>
@@ -47,9 +52,15 @@ const LoginPage = () => {
                   <Form.Control type="password" ref={passwordRef} required />
                 </Form.Group>
 
-                <Button disabled={loading} type="submit">
-                  Log In
-                </Button>
+                <div className="d-flex flex-column align-items-center">
+                  <S.ButtonOutline disabled={loading} type="submit">
+                    Log In
+                  </S.ButtonOutline>
+
+                  <S.ButtonSolid>
+                    <Link to={`/signup`}>Register</Link>
+                  </S.ButtonSolid>
+                </div>
               </Form>
 
               <div className="text-center mt-3">
@@ -57,10 +68,6 @@ const LoginPage = () => {
               </div>
             </Card.Body>
           </Card>
-
-          <div className="text-center mt-3">
-            Need an account? <Link to={`/signup`}>Sign Up</Link>
-          </div>
         </Col>
       </Row>
     </>

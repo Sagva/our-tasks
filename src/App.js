@@ -3,10 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Home from "./Home";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import LogoutPage from "./pages/LogoutPage";
+import LoginPage from "./pages/Authentication/LoginPage";
+import SignupPage from "./pages/Authentication/SignupPage";
+import ForgotPasswordPage from "./pages/Authentication/ForgotPasswordPage";
+import LogoutPage from "./pages/Authentication/LogoutPage";
 
 function App() {
   return (
