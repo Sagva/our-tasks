@@ -8,7 +8,7 @@ import SignupPage from "./pages/Authentication/SignupPage";
 import ForgotPasswordPage from "./pages/Authentication/ForgotPasswordPage";
 import LogoutPage from "./pages/Authentication/LogoutPage";
 import Navbar from "./components/Navbar";
-import AllProjectsPage from "./pages/AllProjectsPage";
+import AllProjectsPage from "./pages/AllProjects/AllProjectsPage";
 import RequireAuth from "./components/RequireAuth";
 
 function App() {
