@@ -47,6 +47,13 @@ const ProjectPage = () => {
       setProjectName(snapshot.data().name);
     }
   };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.target.blur();
+      changeProjectName();
+    }
+  };
   return (
     <div className="d-flex flex-column flex-md-row">
       <Collaborators />
@@ -65,6 +72,7 @@ const ProjectPage = () => {
               value={projectName}
               onChange={(e) => setProjectName(e.target.value)}
               onBlur={changeProjectName}
+              onKeyPress={handleKeyPress}
             ></S.ProjectName>
           )}
         </S.ProjectHeader>
