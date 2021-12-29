@@ -3,31 +3,26 @@ import * as S from "./style";
 import plus from "../../assets/svg/plus.svg";
 import { Container } from "react-bootstrap";
 import ProjectCard from "../../components/ProjectCard/ProjectCard";
-import { useFirestoreQueryData } from "@react-query-firebase/firestore";
-import { collection, query } from "firebase/firestore";
+import useProjects from "../../hooks/useProjects";
+import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
+import { useAuthContext } from "../../contexts/AuthContext";
 
 const AllProjectsPage = () => {
+  const { currentUser } = useAuthContext();
+  const projectQuery = useProjects(currentUser.uid);
 
-  const queryRef = query(
-    collection(db, "projects")
-  );
-  const { data, isLoading } = useFirestoreQueryData(
-    ["projects"],
-    queryRef,
-    {
-      idField: "id",
-      subscribe: true,
-    },
-    {
-      refetchOnMount: "always",
-    }
-  );
-  
+  const handleClick = async () => {
+    await addDoc(collection(db, "projects"), {
+      name: "New project",
+      accessList: [currentUser.uid],
+    });
+  };
+
   return (
     <Container>
       <S.ProjectsHeader>
-        <S.ButtonOutline>
+        <S.ButtonOutline onClick={handleClick}>
           <div className="d-flex">
             <img src={plus} alt="add project" />
             <span className="mx-2"> New project</span>
@@ -37,14 +32,14 @@ const AllProjectsPage = () => {
           <S.Heading>Your projects</S.Heading>
         </div>
       </S.ProjectsHeader>
-      <div className="d-flex flex-column flex-md-row mt-4">
-        {isLoading && <p>Loading...</p>}
-        {data && (
+      <div className="d-flex flex-column flex-md-row mt-4 flex-wrap">
+        {projectQuery.isLoading && <p>Loading...</p>}
+        {projectQuery.data && (
           <>
-            {data.length ? (
+            {projectQuery.data.length ? (
               <>
-                {data.map((project) => {
-                  return <ProjectCard project={project} key={project.name} />;
+                {projectQuery.data.map((project) => {
+                  return <ProjectCard project={project} key={project.id} />;
                 })}
               </>
             ) : (

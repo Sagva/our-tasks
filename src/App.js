@@ -10,6 +10,7 @@ import LogoutPage from "./pages/Authentication/LogoutPage";
 import Navbar from "./components/Navbar";
 import AllProjectsPage from "./pages/AllProjects/AllProjectsPage";
 import RequireAuth from "./components/RequireAuth";
+import ProjectPage from "./pages/ProjectPage.jsx/ProjectPage";
 
 function App() {
   return (
@@ -29,6 +30,14 @@ function App() {
             element={
               <RequireAuth redirectTo={`/login`}>
                 <AllProjectsPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={`/project/:id`}
+            element={
+              <RequireAuth redirectTo={`/login`}>
+                <ProjectPage />
               </RequireAuth>
             }
           />
