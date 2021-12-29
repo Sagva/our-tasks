@@ -5,7 +5,7 @@ export const Card = styled.div`
   font-size: 1.2rem;
   color: ${colors.background.onColor};
   width: 13rem;
-  height: 10rem;
+  height: 7rem;
   border-radius: 0.5rem;
   padding: 1rem 1.5rem;
   margin: 1rem 1.5rem;

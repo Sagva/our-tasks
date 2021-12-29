@@ -1,11 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useFirestoreDocument } from "@react-query-firebase/firestore";
 import { doc, query, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
+import { Container } from "react-bootstrap";
+import arrow from "../../assets/svg/arrow.svg";
+import * as S from "./style";
 
 const ProjectPage = () => {
   const { id } = useParams();
+  const { state } = useLocation(); //to make input in focus only if user redirects first time
+  const navigate = useNavigate();
   const inputRef = useRef();
   const [projectName, setProjectName] = useState("");
 
@@ -42,20 +47,25 @@ const ProjectPage = () => {
     }
   };
   return (
-    <div>
-      <h1>Project {id} page</h1>
-      {project.isLoading && <p>Loading...</p>}
-      {snapshot && (
-        <input
-          type="text"
-          ref={inputRef}
-          autoFocus
-          value={projectName}
-          onChange={(e) => setProjectName(e.target.value)}
-          onBlur={changeProjectName}
-        ></input>
-      )}
-    </div>
+    <Container>
+      <S.ProjectHeader>
+        <S.GoBackButton onClick={() => navigate(-1)}>
+          <img src={arrow} alt="go back" />
+        </S.GoBackButton>
+        {project.isLoading && <p>Loading...</p>}
+
+        {snapshot && (
+          <S.ProjectName
+            type="text"
+            ref={inputRef}
+            autoFocus={!state}
+            value={projectName}
+            onChange={(e) => setProjectName(e.target.value)}
+            onBlur={changeProjectName}
+          ></S.ProjectName>
+        )}
+      </S.ProjectHeader>
+    </Container>
   );
 };
 

@@ -10,7 +10,7 @@ export const Button = styled.button`
   border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.2s;
-  margin: 0.5rem;
+  margin: 0.5rem 0;
   min-width: 6.5rem;
 `;
 

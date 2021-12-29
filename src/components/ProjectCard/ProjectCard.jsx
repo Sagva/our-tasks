@@ -6,8 +6,8 @@ const ProjectCard = ({ project }) => {
   const navigate = useNavigate();
 
   const handleClick = (project) => {
-    console.log(`the project was clicked`, project.name);
-    navigate(`/project/${project.id}`);
+   
+    navigate(`/project/${project.id}`, {state: {isClicked: true}});
   };
   return <S.Card onClick={() => handleClick(project)}>{project.name}</S.Card>;
 };
