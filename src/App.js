@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <Container id="App" className="py-3">
+      <div id="App" className="py-3">
         <Routes>
           {/* Guest routes */}
           <Route path="/login" element={<LoginPage />} />
@@ -40,7 +40,7 @@ function App() {
             }
           />
         </Routes>
-      </Container>
+      </div>
     </div>
   );
 }

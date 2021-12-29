@@ -6,6 +6,7 @@ import { db } from "../../firebase";
 import { Container } from "react-bootstrap";
 import arrow from "../../assets/svg/arrow.svg";
 import * as S from "./style";
+import Collaborators from "../../components/Collaborators/Collaborators";
 
 const ProjectPage = () => {
   const { id } = useParams();
@@ -47,25 +48,28 @@ const ProjectPage = () => {
     }
   };
   return (
-    <Container>
-      <S.ProjectHeader>
-        <S.GoBackButton onClick={() => navigate(-1)}>
-          <img src={arrow} alt="go back" />
-        </S.GoBackButton>
-        {project.isLoading && <p>Loading...</p>}
+    <div className="d-flex flex-column flex-md-row">
+      <Collaborators />
+      <Container>
+        <S.ProjectHeader>
+          <S.GoBackButton onClick={() => navigate(-1)}>
+            <img src={arrow} alt="go back" />
+          </S.GoBackButton>
+          {project.isLoading && <p>Loading...</p>}
 
-        {snapshot && (
-          <S.ProjectName
-            type="text"
-            ref={inputRef}
-            autoFocus={!state}
-            value={projectName}
-            onChange={(e) => setProjectName(e.target.value)}
-            onBlur={changeProjectName}
-          ></S.ProjectName>
-        )}
-      </S.ProjectHeader>
-    </Container>
+          {snapshot && (
+            <S.ProjectName
+              type="text"
+              ref={inputRef}
+              autoFocus={!state}
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
+              onBlur={changeProjectName}
+            ></S.ProjectName>
+          )}
+        </S.ProjectHeader>
+      </Container>
+    </div>
   );
 };
 
