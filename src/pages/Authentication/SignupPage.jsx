@@ -33,7 +33,7 @@ const SignupPage = () => {
         passwordRef.current.value,
         nameRef.current.value
       );
-      navigate(`/`);
+      navigate(`/projects`);
     } catch (e) {
       setError(e.message);
       setLoading(false);

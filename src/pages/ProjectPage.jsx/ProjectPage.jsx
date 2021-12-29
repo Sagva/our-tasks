@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useFirestoreDocument } from "@react-query-firebase/firestore";
-import { doc, query } from "firebase/firestore";
+import { doc, query, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const ProjectPage = () => {
   const { id } = useParams();
+  const inputRef = useRef();
+  const [projectName, setProjectName] = useState("");
 
   const ref = doc(db, "projects", id);
   const queryRef = query(ref);
@@ -21,16 +23,38 @@ const ProjectPage = () => {
       refetchOnMount: "always",
     }
   );
-
-  //   useEffect(() => {
-  //     console.log(`data`, data);
-  //   }, [data]);
   const snapshot = project.data;
+
+  useEffect(() => {
+    if (snapshot) {
+      setProjectName(snapshot.data().name);
+    }
+  }, [snapshot]);
+
+  const changeProjectName = async () => {
+    if (projectName && projectName !== snapshot.data().name) {
+      const ref = doc(db, "projects", id);
+      await updateDoc(ref, {
+        name: projectName,
+      });
+    } else {
+      setProjectName(snapshot.data().name);
+    }
+  };
   return (
     <div>
       <h1>Project {id} page</h1>
       {project.isLoading && <p>Loading...</p>}
-      {snapshot && <p>{snapshot.data().name}</p>}
+      {snapshot && (
+        <input
+          type="text"
+          ref={inputRef}
+          autoFocus
+          value={projectName}
+          onChange={(e) => setProjectName(e.target.value)}
+          onBlur={changeProjectName}
+        ></input>
+      )}
     </div>
   );
 };

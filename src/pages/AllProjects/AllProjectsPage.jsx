@@ -7,16 +7,22 @@ import useProjects from "../../hooks/useProjects";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const AllProjectsPage = () => {
   const { currentUser } = useAuthContext();
   const projectQuery = useProjects(currentUser.uid);
 
+  const navigate = useNavigate();
+
   const handleClick = async () => {
-    await addDoc(collection(db, "projects"), {
+    const projectData = await addDoc(collection(db, "projects"), {
       name: "New project",
       accessList: [currentUser.uid],
     });
+
+    
+    navigate(`/project/${projectData.id}`);
   };
 
   return (

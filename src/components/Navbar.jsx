@@ -9,11 +9,14 @@ import { NavDropdown } from "react-bootstrap";
 
 const Navigation = () => {
   const { currentUser } = useAuthContext();
-  console.log(`currentUser`, currentUser);
+  // console.log(`currentUser`, currentUser);
   return (
     <Navbar expand="md">
       <Container>
-        <Link to={`/`} className="navbar-brand">
+        <Link
+          to={currentUser ? "/projects" : "/login"}
+          className="navbar-brand"
+        >
           <img src={logoName} alt="logo" style={{ width: 150 }} />
         </Link>
 
