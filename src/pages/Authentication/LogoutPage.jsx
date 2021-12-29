@@ -1,14 +1,17 @@
 import React, { useEffect } from "react";
 import { Row, Col, Card } from "react-bootstrap";
+import { QueryClient, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
 
 const LogoutPage = () => {
   const { logout } = useAuthContext();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   useEffect(async () => {
     await logout();
+    queryClient.removeQueries("projects");
     navigate(`/login`);
   }, []);
 
