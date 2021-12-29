@@ -3,9 +3,27 @@ import * as S from "./style";
 import plus from "../../assets/svg/plus.svg";
 import { Container } from "react-bootstrap";
 import ProjectCard from "../../components/ProjectCard/ProjectCard";
+import { useFirestoreQueryData } from "@react-query-firebase/firestore";
+import { collection, query } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const AllProjectsPage = () => {
-  const projects = [{ name: "Examensarbete" }, { name: "Bil shop Lavander" }];
+
+  const queryRef = query(
+    collection(db, "projects")
+  );
+  const { data, isLoading } = useFirestoreQueryData(
+    ["projects"],
+    queryRef,
+    {
+      idField: "id",
+      subscribe: true,
+    },
+    {
+      refetchOnMount: "always",
+    }
+  );
+  
   return (
     <Container>
       <S.ProjectsHeader>
@@ -20,12 +38,20 @@ const AllProjectsPage = () => {
         </div>
       </S.ProjectsHeader>
       <div className="d-flex flex-column flex-md-row mt-4">
-        {projects &&
-          projects.map((project) => {
-            return <ProjectCard project={project} key={project.name} />;
-          })}
-
-        {!projects && <p>You don't have any projects for the moment</p>}
+        {isLoading && <p>Loading...</p>}
+        {data && (
+          <>
+            {data.length ? (
+              <>
+                {data.map((project) => {
+                  return <ProjectCard project={project} key={project.name} />;
+                })}
+              </>
+            ) : (
+              <p>You don't have any projects for the moment</p>
+            )}
+          </>
+        )}
       </div>
     </Container>
   );
