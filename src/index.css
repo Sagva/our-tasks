@@ -15,3 +15,7 @@ code {
 .card {
   background-color: #ebf2ff !important;
 }
+
+.alert {
+  font-size: 14px !important;
+}
