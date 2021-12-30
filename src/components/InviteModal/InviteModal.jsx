@@ -40,7 +40,7 @@ const InviteModal = (props) => {
         </S.CloseIcon>
       </S.InviteHeading>
       <form onSubmit={handleSubmit}>
-        <div style={{ height: 190 }}>
+        <div>
           <S.Input
             type="email"
             required

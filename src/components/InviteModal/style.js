@@ -3,7 +3,6 @@ import colors from "../../theme/colors.json";
 
 export const InviteContainer = styled.div`
   width: 15rem;
-  height: 20rem;
   border-radius: 5px;
   background-color: ${colors.background_variant.color};
   text-align: center;
@@ -38,7 +37,7 @@ export const Input = styled.input`
 export const Message = styled.p`
   font-size: 13.5px;
   color: ${colors.primary_accent.color};
-  margin: 5px 0 15px 0;
+  margin: 5px 0 25px 0;
 `;
 export const CloseIcon = styled.button`
   position: absolute;
@@ -65,7 +64,7 @@ export const Button = styled.button`
 
   cursor: pointer;
   transition: all 0.2s;
-  margin: 0.5rem 0;
+  margin: 1rem;
   min-width: 6.5rem;
   border: 1px solid ${colors.accent.color};
   color: ${colors.accent.color};

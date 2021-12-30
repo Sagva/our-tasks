@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useFirestoreDocument } from "@react-query-firebase/firestore";
-import { doc, query, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, query, updateDoc } from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { Container } from "react-bootstrap";
 import arrow from "../../assets/svg/arrow.svg";
@@ -15,7 +15,6 @@ const ProjectPage = () => {
   const navigate = useNavigate();
   const inputRef = useRef();
   const [projectName, setProjectName] = useState("");
-
   // to get the data about project from db
   const ref = doc(db, "projects", id);
   const queryRef = query(ref);
@@ -62,17 +61,19 @@ const ProjectPage = () => {
   const invite = async (email) => {
     let message = {};
     const methods = await fetchSignInMethodsForEmail(auth, email);
-    console.log(`methods`, methods);
-    console.log(`email`, email);
 
     if (methods.length) {
       // The email already exists in the Auth database.
-      console.log(`user exist`);
+
+      //add the user to accesList array
+      await updateDoc(ref, {
+        accessList: arrayUnion("New user's ID"),
+      });
+
       message.type = "success";
       message.text = `The project was shared with the user ${email}`;
     } else {
       // User does not exist. Ask user to sign up.
-      console.log(`user is not exist`);
       message.type = "danger";
       message.text = `The email ${email} dosen't registered at OurTasks`;
     }
