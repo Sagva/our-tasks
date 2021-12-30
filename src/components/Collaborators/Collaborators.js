@@ -1,17 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import * as S from "./style";
 import * as SharedStyle from "../../pages/AllProjects/style";
 import plus from "../../assets/svg/plus.svg";
-
 import InviteModal from "../InviteModal/InviteModal";
-
 const Collaborators = () => {
   const [showModal, setShowModal] = useState(false);
 
-  const handleClick = () => {
-    console.log(`btn was clicked`);
-    setShowModal(true);
-  };
   return (
     <S.Collaborators>
       <InviteModal showModal={showModal} setShowModal={setShowModal} />
@@ -19,7 +13,7 @@ const Collaborators = () => {
 
       <div>
         <S.BtnContainer>
-          <SharedStyle.ButtonOutline onClick={handleClick}>
+          <SharedStyle.ButtonOutline onClick={() => setShowModal(true)}>
             <div className="d-flex">
               <img src={plus} alt="add project" />
               <span className="mx-2"> Invite</span>

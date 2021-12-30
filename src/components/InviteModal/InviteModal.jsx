@@ -1,14 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import * as S from "./style";
 import * as SharedStyle from "../../pages/AllProjects/style";
 import close from "../../assets/svg/close.svg";
+import useOnClickOutside from "../../hooks/useOnCllickOutside";
 const InviteModal = (props) => {
   const { showModal, setShowModal } = props;
   const inviteContainerRef = useRef();
 
+  useOnClickOutside(inviteContainerRef, () => setShowModal(false));
+
   return (
     <S.InviteContainer
-      inviteContainerRef
+      ref={inviteContainerRef}
       style={{ display: showModal ? "block" : "none" }}
     >
       <S.InviteHeading>
