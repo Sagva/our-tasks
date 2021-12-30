@@ -1,7 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useFirestoreDocument } from "@react-query-firebase/firestore";
-import { arrayUnion, doc, query, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { auth, db } from "../../firebase";
 import { Container } from "react-bootstrap";
 import arrow from "../../assets/svg/arrow.svg";
@@ -61,13 +69,22 @@ const ProjectPage = () => {
   const invite = async (email) => {
     let message = {};
     const methods = await fetchSignInMethodsForEmail(auth, email);
-
+    let collaboratorsID;
     if (methods.length) {
-      // The email already exists in the Auth database.
+      // The email exists in the Auth database.
 
-      //add the user to accesList array
+      //find user by email
+      const q = query(collection(db, "users"), where("email", "==", email));
+
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        collaboratorsID = doc.id;
+      });
+
+      //add the user's ID to accesList array
       await updateDoc(ref, {
-        accessList: arrayUnion("New user's ID"),
+        accessList: arrayUnion(collaboratorsID),
       });
 
       message.type = "success";
