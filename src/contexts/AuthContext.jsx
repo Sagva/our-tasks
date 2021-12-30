@@ -28,8 +28,6 @@ const AuthContextProvider = ({ children }) => {
       password
     );
 
-    console.log(`userCredentials.user`, userCredentials.user);
-    
     // Add display name to user
     await updateProfile(userCredentials.user, {
       displayName: name,
@@ -37,9 +35,9 @@ const AuthContextProvider = ({ children }) => {
 
     // create a user document in users collection
     await setDoc(doc(db, "users", userCredentials.user.uid), {
-      name: userCredentials.user.displayName,
+      name: name,
+      email: email,
     });
-    
   };
 
   const login = (email, password) => {
