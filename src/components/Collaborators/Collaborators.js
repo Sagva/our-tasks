@@ -1,11 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import * as S from "./style";
 import * as SharedStyle from "../../pages/AllProjects/style";
 import plus from "../../assets/svg/plus.svg";
 import InviteModal from "../InviteModal/InviteModal";
-const Collaborators = ({ invite }) => {
+const Collaborators = ({ invite, collaborators }) => {
   const [showModal, setShowModal] = useState(false);
-
+  
   return (
     <S.Collaborators>
       <InviteModal
@@ -25,11 +25,10 @@ const Collaborators = ({ invite }) => {
           </SharedStyle.ButtonOutline>
         </S.BtnContainer>
         <S.Names>
-          <p>Elena</p>
-          <p>Beta</p>
-          <p>Kyd</p>
-          <p>Katya</p>
-          <p>Doo</p>
+          {collaborators &&
+            collaborators.map((element) => {
+              return <p key={element.email}>{element.name}</p>;
+            })}
         </S.Names>
       </div>
     </S.Collaborators>
