@@ -3,12 +3,15 @@ import * as S from "./style";
 import close from "../../assets/svg/close.svg";
 import useOnClickOutside from "../../hooks/useOnCllickOutside";
 import Alert from "react-bootstrap/Alert";
+import { useProjectContext } from "../../contexts/ProjectContext";
 
 const InviteModal = (props) => {
-  const { showModal, setShowModal, invite } = props;
+  const { showModal, setShowModal } = props;
   const [message, setMessage] = useState();
   const [email, setEmail] = useState("");
   const inviteContainerRef = useRef();
+
+  const {inviteCollaborators} = useProjectContext()
 
   //close Invite modal window on click outside it
   useOnClickOutside(inviteContainerRef, () => handleClose());
@@ -17,7 +20,7 @@ const InviteModal = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await invite(email);
+    const result = await inviteCollaborators(email);
     setEmail("");
     setMessage(result);
     // setShowModal(false);

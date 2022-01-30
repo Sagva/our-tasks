@@ -1,21 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useFirestoreDocument } from "@react-query-firebase/firestore";
-import {
-  arrayUnion,
-  collection,
-  doc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { auth, db } from "../../firebase";
+import { doc, query, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 import { Container } from "react-bootstrap";
 import arrow from "../../assets/svg/arrow.svg";
 import * as S from "./style";
 import Collaborators from "../../components/Collaborators/Collaborators";
-import { fetchSignInMethodsForEmail } from "firebase/auth";
 import { useProjectContext } from "../../contexts/ProjectContext";
 
 const ProjectPage = () => {
@@ -23,7 +14,12 @@ const ProjectPage = () => {
   const { state } = useLocation(); //to make input in focus only if user redirects first time
   const navigate = useNavigate();
 
-  const { collaborators, getCollaborators } = useProjectContext();
+  const { setProjectId, collaborators, getCollaborators } = useProjectContext();
+
+  //set project Id in the Context for using it at other components
+  useEffect(() => {
+    setProjectId(id);
+  }, [setProjectId, id]);
 
   //to rename project
   const inputRef = useRef();
@@ -72,43 +68,9 @@ const ProjectPage = () => {
     }
   };
 
-  //to invite colaborators
-  const invite = async (email) => {
-    let message = {};
-
-    //to check if the email is registered at OurTasks
-    const methods = await fetchSignInMethodsForEmail(auth, email);
-    let collaboratorsID;
-    if (methods.length) {
-      // The email exists in the Auth database.
-
-      //find user by email
-      const q = query(collection(db, "users"), where("email", "==", email));
-
-      const querySnapshot = await getDocs(q);
-
-      querySnapshot.forEach((doc) => {
-        collaboratorsID = doc.id;
-      });
-
-      //add the user's ID to accesList array
-      await updateDoc(ref, {
-        accessList: arrayUnion(collaboratorsID),
-      });
-
-      message.type = "success";
-      message.text = `The project was shared with the user ${email}`;
-    } else {
-      // User does not exist. Ask user to sign up.
-      message.type = "danger";
-      message.text = `The email ${email} dosen't registered at OurTasks`;
-    }
-    return message;
-  };
-
   return (
     <div className="d-flex flex-column flex-md-row">
-      <Collaborators invite={invite} collaborators={collaborators} />
+      <Collaborators collaborators={collaborators} />
       <Container>
         <S.ProjectHeader>
           <S.GoBackButton onClick={() => navigate(-1)}>

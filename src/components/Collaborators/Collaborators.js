@@ -11,7 +11,6 @@ const Collaborators = ({ invite, collaborators }) => {
       <InviteModal
         showModal={showModal}
         setShowModal={setShowModal}
-        invite={invite}
       />
       <S.Heading>Collaborators</S.Heading>
 
