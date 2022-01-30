@@ -16,17 +16,18 @@ import arrow from "../../assets/svg/arrow.svg";
 import * as S from "./style";
 import Collaborators from "../../components/Collaborators/Collaborators";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
+import { useProjectContext } from "../../contexts/ProjectContext";
 
 const ProjectPage = () => {
   const { id } = useParams();
   const { state } = useLocation(); //to make input in focus only if user redirects first time
   const navigate = useNavigate();
 
+  const { collaborators, getCollaborators } = useProjectContext();
+
   //to rename project
   const inputRef = useRef();
   const [projectName, setProjectName] = useState("");
-
-  const [collaborators, setCollaborators] = useState([]);
 
   // to get the data about project from db
   const ref = doc(db, "projects", id);
@@ -45,26 +46,13 @@ const ProjectPage = () => {
   );
   const snapshot = project.data;
 
-  const getCollaborators = async (userIds) => {
-    let collaborators = [];
-    const q = query(collection(db, "users"), where("__name__", "in", userIds));
-
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
-      collaborators.push(doc.data());
-    });
-
-    setCollaborators(collaborators);
-  };
-
   //as soon as the project's data is gotten, setProjectName as it is in DB and get collaborators
   useEffect(() => {
     if (snapshot) {
       getCollaborators(snapshot.data().accessList);
       setProjectName(snapshot.data().name);
     }
-  }, [snapshot]);
+  }, [snapshot, getCollaborators]);
 
   //to change project name either on enter click or onBlur on input
   const changeProjectName = async () => {
@@ -91,8 +79,9 @@ const ProjectPage = () => {
     //to check if the email is registered at OurTasks
     const methods = await fetchSignInMethodsForEmail(auth, email);
     let collaboratorsID;
-    if (methods.length) { // The email exists in the Auth database.
-     
+    if (methods.length) {
+      // The email exists in the Auth database.
+
       //find user by email
       const q = query(collection(db, "users"), where("email", "==", email));
 

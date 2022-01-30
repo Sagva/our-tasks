@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../firebase";
 
 const ProjectContext = createContext();
 
@@ -7,13 +9,25 @@ const useProjectContext = () => {
 };
 
 const ProjectContextProvider = ({ children }) => {
-  const values = {};
+  const [collaborators, setCollaborators] = useState([]);
+
+  const getCollaborators = async (usersId) => {
+    let collaborators = [];
+    const q = query(collection(db, "users"), where("__name__", "in", usersId));
+
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      collaborators.push(doc.data());
+    });
+
+    setCollaborators(collaborators);
+  };
+
+  const values = { collaborators, getCollaborators };
 
   return (
-    <ProjectContext.Provider value={values}>
-      {/* {loading && <div>Loading...</div>}
-      {!loading && children} */}
-    </ProjectContext.Provider>
+    <ProjectContext.Provider value={values}>{children}</ProjectContext.Provider>
   );
 };
 
