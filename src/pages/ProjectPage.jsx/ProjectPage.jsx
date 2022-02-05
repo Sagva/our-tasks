@@ -3,11 +3,11 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useFirestoreDocument } from "@react-query-firebase/firestore";
 import { doc, query, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
-import { Container } from "react-bootstrap";
 import arrow from "../../assets/svg/arrow.svg";
 import * as S from "./style";
 import Collaborators from "../../components/Collaborators/Collaborators";
 import { useProjectContext } from "../../contexts/ProjectContext";
+import TaskContainer from "../../components/TaskContainer/TaskContainer";
 
 const ProjectPage = () => {
   const { id } = useParams();
@@ -67,6 +67,7 @@ const ProjectPage = () => {
       changeProjectName();
     }
   };
+  const taskList = ["do that", "do this"];
 
   return (
     <S.ParentContainer>
@@ -92,9 +93,11 @@ const ProjectPage = () => {
         </S.ProjectHeader>
       </S.HeaderContainer>
 
-      <S.TaskContainer>
-        Block with tasks
-      </S.TaskContainer>
+      <S.TaskSection>
+        <TaskContainer title="Todo" taskList={taskList} />
+        <TaskContainer title="Ongoing" taskList={taskList} />
+        <TaskContainer title="Done" taskList={taskList} />
+      </S.TaskSection>
     </S.ParentContainer>
   );
 };
