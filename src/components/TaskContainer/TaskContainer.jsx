@@ -1,4 +1,5 @@
 import React from "react";
+import TaskPreviewCard from "../TaskPreviewCard/TaskPreviewCard";
 import * as S from "./style";
 
 const TaskContainer = ({ title, taskList, inputTaskForm, filter }) => {
@@ -8,7 +9,11 @@ const TaskContainer = ({ title, taskList, inputTaskForm, filter }) => {
       {filter && filter}
       {taskList &&
         taskList.map((task, index) => {
-          return <p key={`${task}-${index}`}>{task}</p>;
+          return (
+            <p key={`${task}-${index}`}>
+              <TaskPreviewCard task={task} />
+            </p>
+          );
         })}
 
       {inputTaskForm && inputTaskForm}

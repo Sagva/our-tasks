@@ -67,7 +67,10 @@ const ProjectPage = () => {
       changeProjectName();
     }
   };
-  const taskList = ["do that", "do this"];
+  const taskList = [
+    { title: "Do that", created: "05.02.2022" },
+    { title: "Do this", created: "05.02.2022" },
+  ];
 
   return (
     <S.ParentContainer>

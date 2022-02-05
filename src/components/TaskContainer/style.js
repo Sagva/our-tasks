@@ -11,6 +11,6 @@ export const Wrapper = styled.div`
 `;
 export const Header = styled.h5`
   text-align: center;
-  border-bottom: 1px solid ${colors.light_gray.color};
   padding: 0.5rem 0;
+  margin-bottom: 1rem;
 `;
