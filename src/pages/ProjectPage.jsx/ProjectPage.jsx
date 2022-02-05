@@ -69,9 +69,9 @@ const ProjectPage = () => {
   };
 
   return (
-    <div className="d-flex flex-column flex-md-row">
+    <S.ParentContainer>
       <Collaborators collaborators={collaborators} />
-      <Container>
+      <S.HeaderContainer>
         <S.ProjectHeader>
           <S.GoBackButton onClick={() => navigate(-1)}>
             <img src={arrow} alt="go back" />
@@ -90,8 +90,12 @@ const ProjectPage = () => {
             ></S.ProjectName>
           )}
         </S.ProjectHeader>
-      </Container>
-    </div>
+      </S.HeaderContainer>
+
+      <S.TaskContainer>
+        Block with tasks
+      </S.TaskContainer>
+    </S.ParentContainer>
   );
 };
 

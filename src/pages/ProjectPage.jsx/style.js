@@ -1,10 +1,30 @@
 import styled from "styled-components";
 import colors from "../../theme/colors.json";
 
+export const ParentContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px repeat(2, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+
+  @media (min-width: 750px) {
+    grid-template-columns: 280px 1fr;
+    grid-template-rows: 100px 1fr;
+  }
+`;
+export const HeaderContainer = styled.div`
+  grid-area: 1 / 1 / 2 / 2;
+
+  @media (min-width: 750px) {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+`;
 export const ProjectHeader = styled.div`
   border-bottom: 1px solid ${colors.background.color};
   text-align: center;
   position: relative;
+  margin-bottom: 2rem;
 `;
 export const ProjectName = styled.input`
   border-bottom: 1px solid ${colors.background.color};
@@ -17,11 +37,20 @@ export const ProjectName = styled.input`
 export const GoBackButton = styled.div`
   display: inline-block;
   position: absolute;
-  left: -20px;
+  left: 5px;
   top: 5px;
 
   &:hover {
     cursor: pointer;
-    
+  }
+  @media (min-width: 750px) {
+    left: -20px;
+  }
+`;
+export const TaskContainer = styled.div`
+  grid-area: 3 / 1 / 4 / 2;
+
+  @media (min-width: 750px) {
+    grid-area: 2 / 2 / 3 / 3;
   }
 `;

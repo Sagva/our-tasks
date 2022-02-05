@@ -2,23 +2,18 @@ import styled from "styled-components";
 import colors from "../../theme/colors.json";
 
 export const Collaborators = styled.div`
+  grid-area: 2 / 1 / 3 / 2;
   padding: 0.4rem;
   margin: 0 1rem;
   width: 15rem;
   height: 8rem;
   @media (min-width: 750px) {
+    grid-area: 1 / 1 / 3 / 2;
     padding: 0.4rem;
     margin: 0 2rem;
     height: 100vh;
     width: 250px;
     min-width: 250px;
-  }
-`;
-export const Heading = styled.h5`
-  display: none;
-
-  @media (min-width: 750px) {
-    display: block;
   }
 `;
 export const BtnContainer = styled.div`
@@ -30,9 +25,10 @@ export const BtnContainer = styled.div`
 `;
 export const Names = styled.div`
   display: flex;
-  justify-content: space-between;
+
   flex-wrap: wrap;
   @media (min-width: 750px) {
     flex-direction: column;
+    justify-content: space-between;
   }
 `;
