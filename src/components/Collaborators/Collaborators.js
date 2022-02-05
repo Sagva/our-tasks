@@ -5,14 +5,11 @@ import plus from "../../assets/svg/plus.svg";
 import InviteModal from "../InviteModal/InviteModal";
 const Collaborators = ({ invite, collaborators }) => {
   const [showModal, setShowModal] = useState(false);
-  
+
   return (
     <S.Collaborators>
-      <InviteModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-      />
-      <S.Heading>Collaborators</S.Heading>
+      <InviteModal showModal={showModal} setShowModal={setShowModal} />
+      <h5>Collaborators</h5>
 
       <div>
         <S.BtnContainer>
