@@ -3,7 +3,7 @@ import TaskPreviewCard from "../TaskPreviewCard/TaskPreviewCard";
 import * as S from "./style";
 
 const TaskContainer = ({ title, taskList, AddTaskForm, filter }) => {
-  console.log(`AddTaskForm`, AddTaskForm);
+  // console.log(`AddTaskForm`, AddTaskForm);
   return (
     <S.Wrapper>
       <S.Header>{title}</S.Header>
@@ -11,9 +11,9 @@ const TaskContainer = ({ title, taskList, AddTaskForm, filter }) => {
       {taskList &&
         taskList.map((task, index) => {
           return (
-            <p key={`${task}-${index}`}>
+            <div key={`${task}-${index}`}>
               <TaskPreviewCard task={task} />
-            </p>
+            </div>
           );
         })}
 

@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import * as S from "./style";
 
 const AutoTextArea = (props) => {
-  const textAreaRef = useRef(null);
+  const { textAreaRef } = props;
   const [text, setText] = useState("");
   const [textAreaHeight, setTextAreaHeight] = useState("auto");
   const [parentHeight, setParentHeight] = useState("auto");
@@ -10,7 +10,7 @@ const AutoTextArea = (props) => {
   useEffect(() => {
     setParentHeight(`${textAreaRef.current.scrollHeight}px`);
     setTextAreaHeight(`${textAreaRef.current.scrollHeight}px`);
-  }, [text]);
+  }, [text, textAreaRef]);
 
   const onChangeHandler = (event) => {
     setTextAreaHeight("auto");

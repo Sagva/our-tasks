@@ -4,19 +4,16 @@ import * as S from "./style";
 import * as ShS from "../../sharedStyle";
 
 const AddTaskForm = () => {
-  const inputRef = useRef();
+  const textAreaRef = useRef(null);
+
   const handleSubmit = (e) => {
+    console.log(e);
     e.preventDefault();
-    console.log(inputRef.current.value);
+    console.log("textAreaRef.current.value", textAreaRef.current.value);
   };
   return (
     <S.Form onSubmit={handleSubmit}>
-      {/* <S.Input
-        type="text"
-        placeholder="Enter a title for this task"
-        ref={inputRef}
-      /> */}
-      <AutoTextArea />
+      <AutoTextArea textAreaRef={textAreaRef} />
       <S.ButtonContainer>
         <ShS.ButtonSolid type="submit">Add task</ShS.ButtonSolid>
       </S.ButtonContainer>

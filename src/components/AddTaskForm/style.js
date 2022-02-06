@@ -29,6 +29,6 @@ export const Textarea = styled.textarea`
     box-shadow: 0 0 10px #719ece;
   }
 `;
-export const ButtonContainer = styled.form`
+export const ButtonContainer = styled.div`
   text-align: center;
 `;
