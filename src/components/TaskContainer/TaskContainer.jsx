@@ -2,7 +2,8 @@ import React from "react";
 import TaskPreviewCard from "../TaskPreviewCard/TaskPreviewCard";
 import * as S from "./style";
 
-const TaskContainer = ({ title, taskList, inputTaskForm, filter }) => {
+const TaskContainer = ({ title, taskList, AddTaskForm, filter }) => {
+  console.log(`AddTaskForm`, AddTaskForm);
   return (
     <S.Wrapper>
       <S.Header>{title}</S.Header>
@@ -16,7 +17,7 @@ const TaskContainer = ({ title, taskList, inputTaskForm, filter }) => {
           );
         })}
 
-      {inputTaskForm && inputTaskForm}
+      {AddTaskForm && <AddTaskForm />}
     </S.Wrapper>
   );
 };

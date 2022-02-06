@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Row, Col, Form, Card, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthContext";
-import * as S from "./style";
+import * as S from "../../sharedStyle";
 
 const LoginPage = () => {
   const emailRef = useRef();

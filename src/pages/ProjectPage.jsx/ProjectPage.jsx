@@ -8,6 +8,7 @@ import * as S from "./style";
 import Collaborators from "../../components/Collaborators/Collaborators";
 import { useProjectContext } from "../../contexts/ProjectContext";
 import TaskContainer from "../../components/TaskContainer/TaskContainer";
+import AddTaskForm from "../../components/AddTaskForm/AddTaskForm";
 
 const ProjectPage = () => {
   const { id } = useParams();
@@ -97,7 +98,11 @@ const ProjectPage = () => {
       </S.HeaderContainer>
 
       <S.TaskSection>
-        <TaskContainer title="Todo" taskList={taskList} />
+        <TaskContainer
+          title="Todo"
+          taskList={taskList}
+          AddTaskForm={AddTaskForm}
+        />
         <TaskContainer title="Ongoing" taskList={taskList} />
         <TaskContainer title="Done" taskList={taskList} />
       </S.TaskSection>

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Row, Col, Form, Card, Alert } from "react-bootstrap";
 import { useAuthContext } from "../../contexts/AuthContext";
-import * as S from "./style";
+import * as S from "../../sharedStyle";
 
 const ForgotPasswordPage = () => {
   const emailRef = useRef();

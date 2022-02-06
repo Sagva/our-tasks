@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
   border-radius: 10px;
   flex-grow: 1;
   height: min-content;
+  max-width: 400px;
 `;
 export const Header = styled.h5`
   text-align: center;
