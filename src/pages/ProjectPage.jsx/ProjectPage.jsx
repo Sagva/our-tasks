@@ -25,6 +25,7 @@ const ProjectPage = () => {
   //to rename project
   const inputRef = useRef();
   const [projectName, setProjectName] = useState("");
+  const [fetchedProject, setFetchedProject] = useState(null);
 
   // to get the data about project from db
   const ref = doc(db, "projects", id);
@@ -48,8 +49,9 @@ const ProjectPage = () => {
     if (snapshot) {
       getCollaborators(snapshot.data().accessList);
       setProjectName(snapshot.data().name);
+      setFetchedProject(snapshot.data());
     }
-  }, [snapshot, getCollaborators]);
+  }, [snapshot]);
 
   //to change project name either on enter click or onBlur on input
   const changeProjectName = async () => {
@@ -68,10 +70,6 @@ const ProjectPage = () => {
       changeProjectName();
     }
   };
-  const taskList = [
-    { title: "Do that", created: "05.02.2022" },
-    { title: "Do this", created: "05.02.2022" },
-  ];
 
   return (
     <S.ParentContainer>
@@ -100,11 +98,25 @@ const ProjectPage = () => {
       <S.TaskSection>
         <TaskContainer
           title="Todo"
-          taskList={taskList}
+          taskList={fetchedProject?.tasks}
           AddTaskForm={AddTaskForm}
+          project={fetchedProject}
+          id={id}
         />
-        <TaskContainer title="Ongoing" taskList={taskList} />
-        <TaskContainer title="Done" taskList={taskList} />
+        <TaskContainer
+          title="Ongoing"
+          taskList={fetchedProject?.tasks.filter(
+            (task) => task.assignee.length > 0 && !task.done
+          )}
+          project={fetchedProject}
+          id={id}
+        />
+        <TaskContainer
+          title="Done"
+          taskList={fetchedProject?.tasks.filter((task) => task.done)}
+          project={fetchedProject}
+          id={id}
+        />
       </S.TaskSection>
     </S.ParentContainer>
   );

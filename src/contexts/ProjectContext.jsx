@@ -21,7 +21,6 @@ const useProjectContext = () => {
 const ProjectContextProvider = ({ children }) => {
   const [collaborators, setCollaborators] = useState([]);
   const [projectId, setProjectId] = useState(null);
-  
 
   const getCollaborators = async (usersId) => {
     let collaborators = [];
@@ -78,6 +77,7 @@ const ProjectContextProvider = ({ children }) => {
     collaborators,
     getCollaborators,
     inviteCollaborators,
+    projectId,
   };
 
   return (

@@ -3,13 +3,15 @@ import AutoTextArea from "./AutoTextArea";
 import * as S from "./style";
 import * as ShS from "../../sharedStyle";
 
-const AddTaskForm = () => {
+const AddTaskForm = ({ submitHandler }) => {
   const textAreaRef = useRef(null);
 
-  const handleSubmit = (e) => {
-    console.log(e);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("textAreaRef.current.value", textAreaRef.current.value);
+
+    submitHandler(textAreaRef.current.value);
+
+    textAreaRef.current.value = "";
   };
   return (
     <S.Form onSubmit={handleSubmit}>

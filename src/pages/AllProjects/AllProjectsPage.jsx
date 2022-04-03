@@ -5,7 +5,7 @@ import plus from "../../assets/svg/plus.svg";
 import { Container } from "react-bootstrap";
 import ProjectCard from "../../components/ProjectCard/ProjectCard";
 import useProjects from "../../hooks/useProjects";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -20,9 +20,14 @@ const AllProjectsPage = () => {
     const projectData = await addDoc(collection(db, "projects"), {
       name: "New project",
       accessList: [currentUser.uid],
+      tasks: [],
     });
 
-    
+    const createdProject = doc(db, "projects", projectData.id);
+    await updateDoc(createdProject, {
+      id: projectData.id,
+    });
+
     navigate(`/project/${projectData.id}`);
   };
 
