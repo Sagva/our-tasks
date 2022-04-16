@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as S from "./style";
 
 const AutoTextArea = (props) => {
-  const { textAreaRef } = props;
+  const { textAreaRef, placeholder } = props;
   const [text, setText] = useState("");
   const [textAreaHeight, setTextAreaHeight] = useState("auto");
   const [parentHeight, setParentHeight] = useState("auto");
@@ -35,7 +35,7 @@ const AutoTextArea = (props) => {
         style={{
           height: textAreaHeight,
         }}
-        placeholder="Enter a title for this task"
+        placeholder={placeholder}
         onChange={onChangeHandler}
       />
     </div>

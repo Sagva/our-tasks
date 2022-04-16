@@ -10,7 +10,7 @@ export const ParentContainer = styled.div`
 
   @media (min-width: 1150px) {
     grid-template-columns: 280px 1fr;
-    grid-template-rows: 100px min-content;
+    grid-template-rows: 50px min-content;
   }
 `;
 export const HeaderContainer = styled.div`
@@ -20,13 +20,13 @@ export const HeaderContainer = styled.div`
     grid-area: 1 / 2 / 2 / 3;
   }
 `;
-export const ProjectHeader = styled.div`
+export const Header = styled.div`
   border-bottom: 1px solid ${colors.background.color};
   text-align: center;
   position: relative;
   margin-bottom: 2rem;
 `;
-export const ProjectName = styled.input`
+export const Name = styled.input`
   border-bottom: 1px solid ${colors.background.color};
   text-align: center;
   font-size: 1.5rem;

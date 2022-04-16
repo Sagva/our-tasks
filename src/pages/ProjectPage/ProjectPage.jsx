@@ -11,7 +11,7 @@ import TaskContainer from "../../components/TaskContainer/TaskContainer";
 import AddTaskForm from "../../components/AddTaskForm/AddTaskForm";
 
 const ProjectPage = () => {
-  const { id } = useParams();
+  const { id: projectId } = useParams();
   const { state } = useLocation(); //to make input in focus only if user redirects first time
   const navigate = useNavigate();
 
@@ -19,8 +19,8 @@ const ProjectPage = () => {
 
   //set project Id in the Context for using it at other components
   useEffect(() => {
-    setProjectId(id);
-  }, [setProjectId, id]);
+    setProjectId(projectId);
+  }, [setProjectId, projectId]);
 
   //to rename project
   const inputRef = useRef();
@@ -28,11 +28,11 @@ const ProjectPage = () => {
   const [fetchedProject, setFetchedProject] = useState(null);
 
   // to get the data about project from db
-  const ref = doc(db, "projects", id);
+  const ref = doc(db, "projects", projectId);
   const queryRef = query(ref);
 
   const project = useFirestoreDocument(
-    ["project", id],
+    ["project", projectId],
     queryRef,
     {
       idField: "id",
@@ -75,14 +75,14 @@ const ProjectPage = () => {
     <S.ParentContainer>
       <Collaborators collaborators={collaborators} />
       <S.HeaderContainer>
-        <S.ProjectHeader>
+        <S.Header>
           <S.GoBackButton onClick={() => navigate(-1)}>
             <img src={arrow} alt="go back" />
           </S.GoBackButton>
           {project.isLoading && <p>Loading...</p>}
 
           {snapshot && (
-            <S.ProjectName
+            <S.Name
               type="text"
               ref={inputRef}
               autoFocus={!state}
@@ -90,9 +90,9 @@ const ProjectPage = () => {
               onChange={(e) => setProjectName(e.target.value)}
               onBlur={changeProjectName}
               onKeyPress={handleKeyPress}
-            ></S.ProjectName>
+            ></S.Name>
           )}
-        </S.ProjectHeader>
+        </S.Header>
       </S.HeaderContainer>
 
       <S.TaskSection>
@@ -101,7 +101,7 @@ const ProjectPage = () => {
           taskList={fetchedProject?.tasks}
           AddTaskForm={AddTaskForm}
           project={fetchedProject}
-          id={id}
+          projectId={projectId}
         />
         <TaskContainer
           title="Ongoing"
@@ -109,13 +109,13 @@ const ProjectPage = () => {
             (task) => task.assignee.length > 0 && !task.done
           )}
           project={fetchedProject}
-          id={id}
+          projectId={projectId}
         />
         <TaskContainer
           title="Done"
           taskList={fetchedProject?.tasks.filter((task) => task.done)}
           project={fetchedProject}
-          id={id}
+          projectId={projectId}
         />
       </S.TaskSection>
     </S.ParentContainer>

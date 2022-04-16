@@ -3,7 +3,7 @@ import * as S from "./style";
 import * as SharedStyle from "../../pages/AllProjects/style";
 import plus from "../../assets/svg/plus.svg";
 import InviteModal from "../InviteModal/InviteModal";
-const Collaborators = ({ invite, collaborators }) => {
+const Collaborators = ({ collaborators }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (

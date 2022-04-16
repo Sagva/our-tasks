@@ -1,23 +1,15 @@
 import React from "react";
 import * as S from "./style";
+import { getDateAndTime } from "../utils/utils";
 
 const TaskPreviewCard = ({ task }) => {
-  const createdDate = new Date(task.created_at)
-    .toLocaleDateString("en-GB")
-    .split("/")
-    .reverse()
-    .join("-");
-  const createdTime = new Date(task.created_at).toLocaleTimeString("en-GB");
-
   return (
     <S.Wrapper>
       <S.Title>{task.title}</S.Title>
       <S.Created>
         <p>
           Created:
-          <span>
-            {createdDate} {createdTime}
-          </span>
+          <span> {getDateAndTime(task.created_at)}</span>
         </p>
       </S.Created>
     </S.Wrapper>

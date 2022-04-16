@@ -11,7 +11,7 @@ export const Collaborators = styled.div`
     grid-area: 1 / 1 / 3 / 2;
     padding: 0.4rem;
     margin: 0 2rem;
-    height: 100vh;
+
     width: 250px;
     min-width: 250px;
   }

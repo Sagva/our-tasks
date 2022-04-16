@@ -10,7 +10,6 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
-import { ref } from "firebase/storage";
 
 const ProjectContext = createContext();
 
@@ -21,7 +20,6 @@ const useProjectContext = () => {
 const ProjectContextProvider = ({ children }) => {
   const [collaborators, setCollaborators] = useState([]);
   const [projectId, setProjectId] = useState(null);
-
   const getCollaborators = async (usersId) => {
     let collaborators = [];
     const q = query(collection(db, "users"), where("__name__", "in", usersId));

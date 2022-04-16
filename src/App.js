@@ -9,7 +9,8 @@ import LogoutPage from "./pages/Authentication/LogoutPage";
 import Navbar from "./components/Navbar";
 import AllProjectsPage from "./pages/AllProjects/AllProjectsPage";
 import RequireAuth from "./components/RequireAuth";
-import ProjectPage from "./pages/ProjectPage.jsx/ProjectPage";
+import ProjectPage from "./pages/ProjectPage/ProjectPage";
+import TaskPage from "./pages/TaskPage/TaskPage";
 
 function App() {
   return (
@@ -36,6 +37,14 @@ function App() {
             element={
               <RequireAuth redirectTo={`/login`}>
                 <ProjectPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={`/project/:project_id/task/:task_id`}
+            element={
+              <RequireAuth redirectTo={`/login`}>
+                <TaskPage />
               </RequireAuth>
             }
           />

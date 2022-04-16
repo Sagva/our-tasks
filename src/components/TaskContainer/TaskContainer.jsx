@@ -5,6 +5,8 @@ import * as S from "./style";
 import { useFirestoreDocumentMutation } from "@react-query-firebase/firestore";
 import { db } from "../../firebase";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const TaskContainer = ({
   title,
@@ -12,14 +14,19 @@ const TaskContainer = ({
   AddTaskForm,
   filter,
   project,
-  id,
+  projectId,
 }) => {
   const { currentUser } = useAuthContext();
+  const navigate = useNavigate();
 
-  const ref = doc(db, "projects", id);
+  const ref = doc(db, "projects", projectId);
   const mutation = useFirestoreDocumentMutation(ref, {
     merge: true,
   });
+
+  const handleClick = (task) => {
+    navigate(`/project/${projectId}/task/${task.task_id}`);
+  };
 
   const submitHandler = (taskTitle) => {
     if (!taskTitle) {
@@ -27,13 +34,13 @@ const TaskContainer = ({
     }
 
     let newTaskToAdd = {
+      task_id: uuidv4(),
       title: taskTitle,
       description: "",
       comments: [],
       assignee: [],
       addedBy: currentUser.uid,
       created_at: Date.now(),
-      id: "some id",
       done: false,
     };
     mutation.mutate({
@@ -47,7 +54,7 @@ const TaskContainer = ({
       {taskList &&
         taskList.map((task, index) => {
           return (
-            <div key={`${task}-${index}`}>
+            <div key={`${task}-${index}`} onClick={() => handleClick(task)}>
               <TaskPreviewCard task={task} />
             </div>
           );
