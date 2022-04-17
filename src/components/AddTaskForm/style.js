@@ -4,8 +4,8 @@ import colors from "../../theme/colors.json";
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  max-width: 400px;
-  margin: 0.5rem;
+  max-width: 350px;
+  margin: 1rem 0.7rem;
 `;
 export const Input = styled.input`
   border-radius: 7px;

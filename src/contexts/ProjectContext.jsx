@@ -20,6 +20,8 @@ const useProjectContext = () => {
 const ProjectContextProvider = ({ children }) => {
   const [collaborators, setCollaborators] = useState([]);
   const [projectId, setProjectId] = useState(null);
+  const [tasks, setTasks] = useState(null);
+
   const getCollaborators = async (usersId) => {
     let collaborators = [];
     const q = query(collection(db, "users"), where("__name__", "in", usersId));
@@ -76,6 +78,8 @@ const ProjectContextProvider = ({ children }) => {
     getCollaborators,
     inviteCollaborators,
     projectId,
+    setTasks,
+    tasks,
   };
 
   return (

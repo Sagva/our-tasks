@@ -7,7 +7,6 @@ export const Wrapper = styled.div`
   margin: 0.5rem 1rem;
   border-radius: 10px;
   flex-grow: 1;
-  height: min-content;
   max-width: 400px;
 `;
 export const Header = styled.h5`

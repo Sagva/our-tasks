@@ -15,7 +15,8 @@ const ProjectPage = () => {
   const { state } = useLocation(); //to make input in focus only if user redirects first time
   const navigate = useNavigate();
 
-  const { setProjectId, collaborators, getCollaborators } = useProjectContext();
+  const { setProjectId, collaborators, getCollaborators, setTasks } =
+    useProjectContext();
 
   //set project Id in the Context for using it at other components
   useEffect(() => {
@@ -48,6 +49,7 @@ const ProjectPage = () => {
   useEffect(() => {
     if (snapshot) {
       getCollaborators(snapshot.data().accessList);
+      setTasks(snapshot.data().tasks);
       setProjectName(snapshot.data().name);
       setFetchedProject(snapshot.data());
     }
@@ -98,7 +100,7 @@ const ProjectPage = () => {
       <S.TaskSection>
         <TaskContainer
           title="Todo"
-          taskList={fetchedProject?.tasks}
+          taskList={fetchedProject?.tasks.filter((task) => !task.done)}
           AddTaskForm={AddTaskForm}
           project={fetchedProject}
           projectId={projectId}

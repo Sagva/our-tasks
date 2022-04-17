@@ -18,7 +18,6 @@ const TaskContainer = ({
 }) => {
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
-
   const ref = doc(db, "projects", projectId);
   const mutation = useFirestoreDocumentMutation(ref, {
     merge: true,
@@ -43,23 +42,28 @@ const TaskContainer = ({
       created_at: Date.now(),
       done: false,
     };
-    mutation.mutate({
-      tasks: [...project.tasks, newTaskToAdd],
-    });
+    try {
+      mutation.mutate({
+        tasks: [...project.tasks, newTaskToAdd],
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <S.Wrapper>
       <S.Header>{title}</S.Header>
-      {filter && filter}
-      {taskList &&
-        taskList.map((task, index) => {
-          return (
-            <div key={`${task}-${index}`} onClick={() => handleClick(task)}>
-              <TaskPreviewCard task={task} />
-            </div>
-          );
-        })}
-
+      <div style={{ overflowY: "auto", height: "50vh" }}>
+        {filter && filter}
+        {taskList &&
+          taskList.map((task, index) => {
+            return (
+              <div key={`${task}-${index}`} onClick={() => handleClick(task)}>
+                <TaskPreviewCard task={task} />
+              </div>
+            );
+          })}
+      </div>
       {AddTaskForm && <AddTaskForm submitHandler={submitHandler} />}
     </S.Wrapper>
   );
