@@ -29,7 +29,7 @@ const ProjectContextProvider = ({ children }) => {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-      collaborators.push(doc.data());
+      collaborators.push({ ...doc.data(), id: doc.id });
     });
 
     setCollaborators(collaborators);

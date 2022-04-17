@@ -14,7 +14,6 @@ import { db } from "../../firebase";
 const TaskPage = () => {
   const { project_id, task_id } = useParams();
   const { collaborators, tasks } = useProjectContext();
-
   const navigate = useNavigate();
 
   const inputRef = useRef();
@@ -95,6 +94,11 @@ const TaskPage = () => {
     }
   };
 
+  const findUserName = (userID) => {
+    console.log(collaborators.filter((person) => person.id === userID));
+    return collaborators.filter((person) => person.id === userID)[0].name;
+  };
+
   return (
     <SharedStyle.ParentContainer>
       <Collaborators collaborators={collaborators} />
@@ -117,7 +121,8 @@ const TaskPage = () => {
       {task && (
         <S.TaskContainer>
           <div>
-            Created: {getDateAndTime(task.created_at)} by {task.addedBy}
+            Created: {getDateAndTime(task.created_at)} by{" "}
+            {findUserName(task.addedBy)}
           </div>
           <div>
             <button onClick={toggleDone}>
