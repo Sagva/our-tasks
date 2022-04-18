@@ -10,6 +10,7 @@ import AutoTextArea from "../../components/AddTaskForm/AutoTextArea";
 import { doc } from "firebase/firestore";
 import { useFirestoreDocumentMutation } from "@react-query-firebase/firestore";
 import { db } from "../../firebase";
+import Select from "react-select";
 
 const TaskPage = () => {
   const { project_id, task_id } = useParams();
@@ -22,19 +23,50 @@ const TaskPage = () => {
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
   const [task, setTask] = useState();
+  const [assignedUsers, setAssignedUsers] = useState([]);
+  const [assigneeOptions, setAssigneeOptions] = useState([]);
+  const [showAddAssigneeForm, setShowAddAssigneeForm] = useState(false);
 
   const ref = doc(db, "projects", project_id);
   const mutation = useFirestoreDocumentMutation(ref, {
     merge: true,
   });
 
-  useEffect(() => {
-    if (tasks) {
-      setTask(tasks.filter((t) => t.task_id === task_id)[0]);
-      setTaskName(tasks.filter((t) => t.task_id === task_id)[0].title);
-      setDescription(tasks.filter((t) => t.task_id === task_id)[0].description);
+  const getAssigneeOptions = (currentTask) => {
+    let assigneeOptions = [];
+    for (let i = 0; i < collaborators.length; i++) {
+      let found = false;
+      for (let j = 0; j < currentTask.assignee.length; j++) {
+        if (collaborators[i].id === currentTask.assignee[j].id) {
+          found = true;
+        }
+      }
+
+      if (!found) {
+        assigneeOptions.push({
+          value: collaborators[i],
+          label: collaborators[i].name,
+        });
+      }
     }
-  }, [tasks]);
+    setAssigneeOptions(assigneeOptions);
+  };
+
+  const getCurrentTask = (tasks, currentTaskId) => {
+    return tasks.filter((t) => t.task_id === currentTaskId)[0];
+  };
+
+  useEffect(() => {
+    if (tasks && collaborators) {
+      let currentTask = getCurrentTask(tasks, task_id);
+
+      setTask(currentTask);
+      setTaskName(currentTask.title);
+      setDescription(currentTask.description);
+      setAssignedUsers(currentTask.assignee);
+      getAssigneeOptions(currentTask);
+    }
+  }, [tasks, collaborators]);
 
   const handleSubmitDescriprion = async (e) => {
     e.preventDefault();
@@ -44,7 +76,7 @@ const TaskPage = () => {
   const updateTask = (key, newValue) => {
     for (let i = 0; i < tasks.length; i++) {
       if (tasks[i].task_id === task_id) {
-        tasks[i][`${key}`] = `${newValue}`;
+        tasks[i][`${key}`] = newValue;
       }
     }
     try {
@@ -94,9 +126,41 @@ const TaskPage = () => {
     }
   };
 
+  const handleAddAssignee = (e) => {
+    e.preventDefault();
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].task_id === task_id) {
+        for (let j = 0; j < assignedUsers.length; j++) {
+          if (assignedUsers[j].value) {
+            tasks[i].assignee.push(assignedUsers[j].value);
+          }
+        }
+      }
+    }
+    try {
+      mutation.mutate({
+        tasks: [...tasks],
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    const currentTask = getCurrentTask(tasks, task_id);
+    getAssigneeOptions(currentTask);
+    setShowAddAssigneeForm(false);
+  };
   const findUserName = (userID) => {
-    console.log(collaborators.filter((person) => person.id === userID));
     return collaborators.filter((person) => person.id === userID)[0].name;
+  };
+
+  const handleDeleteAssignee = (assigneeId) => {
+    const newTaskAssignee = task.assignee.filter(
+      (user) => user.id !== assigneeId
+    );
+    console.log(`newTaskAssignee`, newTaskAssignee);
+    updateTask("assignee", newTaskAssignee);
+    const currentTask = getCurrentTask(tasks, task_id);
+    getAssigneeOptions(currentTask);
   };
 
   return (
@@ -130,7 +194,38 @@ const TaskPage = () => {
             </button>
           </div>
           <div>Status: {task.done ? "done" : "in progress"}</div>
-          <div>Assigned to: Elena, Sagva</div>
+          <div>
+            Assigned to:
+            {task.assignee &&
+              task.assignee.map((user) => (
+                <span key={user.id}>
+                  {" "}
+                  {user.name}{" "}
+                  <button onClick={() => handleDeleteAssignee(user.id)}>
+                    x
+                  </button>
+                </span>
+              ))}
+            {assigneeOptions.length > 0 && (
+              <div>
+                <button
+                  onClick={() => setShowAddAssigneeForm(!showAddAssigneeForm)}
+                >
+                  +
+                </button>
+              </div>
+            )}
+            {showAddAssigneeForm && assigneeOptions.length > 0 && (
+              <form onSubmit={handleAddAssignee}>
+                <Select
+                  onChange={(option) => setAssignedUsers(option)}
+                  options={assigneeOptions}
+                  isMulti
+                />
+                <S.Button type="submit">Save</S.Button>
+              </form>
+            )}
+          </div>
           <div>
             Description:
             <form onSubmit={handleSubmitDescriprion}>

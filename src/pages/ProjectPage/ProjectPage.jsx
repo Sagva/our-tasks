@@ -100,7 +100,9 @@ const ProjectPage = () => {
       <S.TaskSection>
         <TaskContainer
           title="Todo"
-          taskList={fetchedProject?.tasks.filter((task) => !task.done)}
+          taskList={fetchedProject?.tasks.filter(
+            (task) => !task.done && !task.assignee.length > 0
+          )}
           AddTaskForm={AddTaskForm}
           project={fetchedProject}
           projectId={projectId}
