@@ -15,9 +15,14 @@ export const Wrapper = styled.div`
 `;
 export const Title = styled.p`
   font-size: 1.1rem;
+  padding-bottom: 0.3rem;
+  margin-bottom: 0;
   border-bottom: 1px solid #c9c9ca6e;
 `;
-export const Created = styled.div`
+export const TextBox = styled.div`
   font-size: 0.8rem;
-  color: ${colors.light_gray.color};
+  color: #6c757c;
+`;
+export const Text = styled.p`
+  margin-bottom: 0;
 `;

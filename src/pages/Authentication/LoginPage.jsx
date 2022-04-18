@@ -29,7 +29,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Row>
+      <div>
         <Col md={{ span: 6, offset: 3 }}>
           <div className="text-center">
             <h2>Welcome to OurTask</h2>
@@ -69,7 +69,7 @@ const LoginPage = () => {
             </Card.Body>
           </Card>
         </Col>
-      </Row>
+      </div>
     </>
   );
 };

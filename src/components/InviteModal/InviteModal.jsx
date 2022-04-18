@@ -11,19 +11,17 @@ const InviteModal = (props) => {
   const [email, setEmail] = useState("");
   const inviteContainerRef = useRef();
 
-  const {inviteCollaborators} = useProjectContext()
+  const { inviteCollaborators } = useProjectContext();
 
   //close Invite modal window on click outside it
   useOnClickOutside(inviteContainerRef, () => handleClose());
 
   //update access list on project document
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await inviteCollaborators(email);
     setEmail("");
     setMessage(result);
-    // setShowModal(false);
   };
 
   const handleClose = () => {
@@ -54,7 +52,7 @@ const InviteModal = (props) => {
           <S.Message>Email must be registered at OurTasks</S.Message>
           {message && <Alert variant={message.type}>{message.text}</Alert>}
         </div>
-        <S.Button type="submit">invite</S.Button>
+        {!message && <S.Button type="submit">invite</S.Button>}
       </form>
     </S.InviteContainer>
   );

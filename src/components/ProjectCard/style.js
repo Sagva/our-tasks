@@ -10,11 +10,7 @@ export const Card = styled.div`
   padding: 1rem 1.5rem;
   margin: 1rem 1.5rem;
   text-align: center;
-  background-image: linear-gradient(
-    to right bottom,
-    ${colors.background.color},
-    ${colors.primary_variant.color}
-  );
+  background-color: ${colors.background.color};
   transition: all 0.2s;
 
   &:hover {

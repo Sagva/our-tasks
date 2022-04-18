@@ -7,6 +7,7 @@ export const Collaborators = styled.div`
   margin: 0 1rem;
   width: 15rem;
   height: 8rem;
+
   @media (min-width: 1150px) {
     grid-area: 1 / 1 / 3 / 2;
     padding: 0.4rem;
@@ -25,7 +26,7 @@ export const BtnContainer = styled.div`
 `;
 export const Names = styled.div`
   display: flex;
-
+  font-weight: 600;
   flex-wrap: wrap;
   @media (min-width: 750px) {
     flex-direction: column;

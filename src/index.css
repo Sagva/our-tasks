@@ -13,9 +13,15 @@ code {
 }
 
 .card {
-  background-color: #ebf2ff !important;
+  background-color: #ebf2ffcc !important;
 }
 
 .alert {
   font-size: 14px !important;
+}
+
+.App {
+  height: 100vh;
+  background-image: url("./assets/images/bg.jpg");
+  background-size: cover;
 }

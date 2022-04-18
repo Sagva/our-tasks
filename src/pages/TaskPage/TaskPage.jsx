@@ -11,6 +11,7 @@ import { doc } from "firebase/firestore";
 import { useFirestoreDocumentMutation } from "@react-query-firebase/firestore";
 import { db } from "../../firebase";
 import Select from "react-select";
+import close from "../../assets/svg/close.svg";
 
 const TaskPage = () => {
   const { project_id, task_id } = useParams();
@@ -185,36 +186,41 @@ const TaskPage = () => {
       {task && (
         <S.TaskContainer>
           <div>
-            Created: {getDateAndTime(task.created_at)} by{" "}
-            {findUserName(task.addedBy)}
+            <b>Created:</b> {getDateAndTime(task.created_at)} <b>by </b>
+            {findUserName(task.addedBy)}{" "}
+            <S.Button onClick={toggleDone} style={{ width: 130 }}>
+              {task.done ? "Back in progress" : "Mark as done"}
+            </S.Button>
+          </div>
+          <div></div>
+          <div>
+            <b>Status:</b> {task.done ? "Done" : "In progress"}
           </div>
           <div>
-            <button onClick={toggleDone}>
-              {task.done ? "Not done yet" : "Mark as done"}
-            </button>
-          </div>
-          <div>Status: {task.done ? "done" : "in progress"}</div>
-          <div>
-            Assigned to:
-            {task.assignee &&
-              task.assignee.map((user) => (
-                <span key={user.id}>
-                  {" "}
-                  {user.name}{" "}
-                  <button onClick={() => handleDeleteAssignee(user.id)}>
-                    x
-                  </button>
-                </span>
-              ))}
-            {assigneeOptions.length > 0 && (
-              <div>
-                <button
+            <S.Assignee>
+              <span style={{ flexGrow: 1 }}>
+                <b>Assigned to: </b>
+                {task.assignee &&
+                  task.assignee.map((user) => (
+                    <span key={user.id}>
+                      {user.name}
+                      <S.DeleteBtn
+                        onClick={() => handleDeleteAssignee(user.id)}
+                      >
+                        <S.Img src={close} alt="delete assignee from project" />
+                      </S.DeleteBtn>
+                    </span>
+                  ))}
+              </span>
+              {assigneeOptions.length > 0 && (
+                <S.Button
+                  style={{ margin: 0, width: 130 }}
                   onClick={() => setShowAddAssigneeForm(!showAddAssigneeForm)}
                 >
-                  +
-                </button>
-              </div>
-            )}
+                  Add assignee
+                </S.Button>
+              )}
+            </S.Assignee>
             {showAddAssigneeForm && assigneeOptions.length > 0 && (
               <form onSubmit={handleAddAssignee}>
                 <Select
@@ -227,7 +233,7 @@ const TaskPage = () => {
             )}
           </div>
           <div>
-            Description:
+            <b>Description:</b>
             <form onSubmit={handleSubmitDescriprion}>
               <AutoTextArea
                 textAreaRef={textAreaRef}

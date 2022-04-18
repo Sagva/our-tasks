@@ -6,16 +6,19 @@ export const TaskContainer = styled.div`
   background-color: ${colors.background.color};
   padding: 1rem 1.5rem;
   border-radius: 0.5rem;
+  grid-area: 2 / 1 / 2 / 3;
+  margin: 0 auto;
 `;
+
 export const Button = styled.button`
   text-transform: uppercase;
-  padding: 0.5rem 0.9rem;
   display: inline-block;
   border-radius: 0.5rem;
   font-size: 0.7rem;
   border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.2s;
+  padding: 0.5rem 0.9rem;
   margin: 0.5rem 0;
   box-shadow: 0px 5px 13px -7px ${colors.primary_accent.color};
   background-color: ${colors.background_variant.color};
@@ -23,4 +26,23 @@ export const Button = styled.button`
   &:hover {
     background-color: ${colors.secondary_accent.color};
   }
+`;
+export const DeleteBtn = styled.button`
+  border: none;
+  background: none;
+  padding-left: 3px;
+`;
+export const Img = styled.img`
+  border-radius: 50%;
+  padding: 2px;
+  &:hover {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
+`;
+
+export const Assignee = styled.div`
+  padding: 0.5rem 0;
+  margin: 0.5rem 0;
+  display: flex;
 `;

@@ -6,12 +6,12 @@ const TaskPreviewCard = ({ task }) => {
   return (
     <S.Wrapper>
       <S.Title>{task.title}</S.Title>
-      <S.Created>
-        <p>
+      <S.TextBox>
+        <S.Text>
           Created:
           <span> {getDateAndTime(task.created_at)}</span>
-        </p>
-      </S.Created>
+        </S.Text>
+      </S.TextBox>
     </S.Wrapper>
   );
 };

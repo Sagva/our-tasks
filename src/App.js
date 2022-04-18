@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <Navbar />
-      <div id="App" className="py-3">
+      <div className="py-3">
         <Routes>
           {/* Guest routes */}
           <Route path="/login" element={<LoginPage />} />

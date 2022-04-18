@@ -28,6 +28,7 @@ export const Header = styled.div`
 `;
 export const Name = styled.input`
   border-bottom: 1px solid ${colors.background.color};
+  background-color: transparent;
   text-align: center;
   font-size: 1.5rem;
   font-weight: 500;
@@ -44,7 +45,7 @@ export const GoBackButton = styled.div`
     cursor: pointer;
   }
   @media (min-width: 1150px) {
-    left: -20px;
+    left: -10px;
   }
 `;
 export const TaskSection = styled.div`
