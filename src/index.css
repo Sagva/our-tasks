@@ -22,6 +22,13 @@ code {
 
 .App {
   height: 100vh;
-  background-image: url("./assets/images/bg.jpg");
+  background: url("./assets/images/bg.jpg") no-repeat center center fixed;
   background-size: cover;
+  overflow: hidden;
+}
+
+@media (min-width: 1150px) {
+  .App {
+    background-position: 0% 0%;
+  }
 }

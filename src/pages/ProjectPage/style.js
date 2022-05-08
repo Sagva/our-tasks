@@ -8,7 +8,7 @@ export const ParentContainer = styled.div`
   grid-column-gap: 0px;
   grid-row-gap: 0px;
 
-  @media (min-width: 1150px) {
+  @media (min-width: 750px) {
     grid-template-columns: 280px 1fr;
     grid-template-rows: 50px min-content;
   }
@@ -16,6 +16,9 @@ export const ParentContainer = styled.div`
 export const HeaderContainer = styled.div`
   grid-area: 1 / 1 / 2 / 2;
 
+  @media (min-width: 750px) {
+    grid-area: 1 / 1 / 2 / 3;
+  }
   @media (min-width: 1150px) {
     grid-area: 1 / 2 / 2 / 3;
   }
@@ -24,7 +27,7 @@ export const Header = styled.div`
   border-bottom: 1px solid ${colors.background.color};
   text-align: center;
   position: relative;
-  margin-bottom: 2rem;
+  margin: 0 1rem;
 `;
 export const Name = styled.input`
   border-bottom: 1px solid ${colors.background.color};
@@ -52,9 +55,13 @@ export const TaskSection = styled.div`
   grid-area: 3 / 1 / 4 / 2;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
-  @media (min-width: 1150px) {
+  @media (min-width: 750px) {
     grid-area: 2 / 2 / 3 / 3;
+  }
+  @media (min-width: 1150px) {
     flex-direction: row;
+    align-items: stretch;
   }
 `;

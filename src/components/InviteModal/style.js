@@ -12,6 +12,7 @@ export const InviteContainer = styled.div`
   top: 121px;
   left: 22px;
   text-align: center;
+  z-index: 1;
 `;
 export const InviteHeading = styled.div`
   border-bottom: 1px solid ${colors.secondary_accent.color};

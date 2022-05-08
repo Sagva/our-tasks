@@ -5,8 +5,11 @@ export const Collaborators = styled.div`
   grid-area: 2 / 1 / 3 / 2;
   padding: 0.4rem;
   margin: 0 1rem;
-  width: 15rem;
-  height: 8rem;
+  height: fit-content;
+
+  @media (min-width: 750px) {
+    width: 15rem;
+  }
 
   @media (min-width: 1150px) {
     grid-area: 1 / 1 / 3 / 2;
@@ -28,8 +31,22 @@ export const Names = styled.div`
   display: flex;
   font-weight: 600;
   flex-wrap: wrap;
+  border-radius: 5px;
+
   @media (min-width: 750px) {
     flex-direction: column;
     justify-content: space-between;
+  }
+`;
+export const Paragraph = styled.p`
+  width: fit-content;
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  color: ${(props) => (props.currentUser ? `white` : `black`)};
+  background-color: ${(props) =>
+    props.currentUser ? `#0942ADCC` : `#ffffffCC`};
+
+  @media (min-width: 750px) {
   }
 `;

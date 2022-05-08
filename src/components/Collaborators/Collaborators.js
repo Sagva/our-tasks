@@ -3,9 +3,10 @@ import * as S from "./style";
 import * as SharedStyle from "../../pages/AllProjects/style";
 import plus from "../../assets/svg/plus.svg";
 import InviteModal from "../InviteModal/InviteModal";
+import { useAuthContext } from "../../contexts/AuthContext";
 const Collaborators = ({ collaborators }) => {
   const [showModal, setShowModal] = useState(false);
-
+  const { currentUser } = useAuthContext();
   return (
     <S.Collaborators>
       <InviteModal showModal={showModal} setShowModal={setShowModal} />
@@ -22,9 +23,24 @@ const Collaborators = ({ collaborators }) => {
         </S.BtnContainer>
         <S.Names>
           {collaborators &&
-            collaborators.map((element) => {
-              return <p key={element.email}>{element.name}</p>;
-            })}
+            collaborators
+              .sort((a, b) => {
+                if (a.id === currentUser.uid) {
+                  return -1;
+                } else if (b.id === currentUser.uid) {
+                  return 1;
+                } else return a - b;
+              })
+              .map((element) => {
+                return (
+                  <S.Paragraph
+                    key={element.email}
+                    currentUser={currentUser.uid === element.id}
+                  >
+                    {element.name}
+                  </S.Paragraph>
+                );
+              })}
         </S.Names>
       </div>
     </S.Collaborators>
