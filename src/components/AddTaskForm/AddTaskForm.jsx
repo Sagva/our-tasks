@@ -17,7 +17,7 @@ const AddTaskForm = ({ submitHandler }) => {
     <S.Form onSubmit={handleSubmit}>
       <AutoTextArea
         textAreaRef={textAreaRef}
-        placehalder="Enter a title for this task"
+        placeholder="Enter a title for a new task"
       />
       <S.ButtonContainer>
         <ShS.ButtonSolid type="submit">Add task</ShS.ButtonSolid>
