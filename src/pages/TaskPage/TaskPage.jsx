@@ -6,12 +6,11 @@ import arrow from "../../assets/svg/arrow.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProjectContext } from "../../contexts/ProjectContext";
 import { getDateAndTime } from "../../components/utils/utils";
-import AutoTextArea from "../../components/AddTaskForm/AutoTextArea";
 import { doc } from "firebase/firestore";
 import { useFirestoreDocumentMutation } from "@react-query-firebase/firestore";
 import { db } from "../../firebase";
-import Select from "react-select";
-import close from "../../assets/svg/close.svg";
+import TaskDescription from "../../components/TaskDescription";
+import TaskAssignee from "../../components/TaskAssignee";
 
 const TaskPage = () => {
   const { project_id, task_id } = useParams();
@@ -105,7 +104,7 @@ const TaskPage = () => {
   };
 
   const changeDescription = async () => {
-    if (description && description !== task.description) {
+    if (description !== task.description) {
       updateTask("description", description);
     } else {
       setDescription(task.description);
@@ -158,7 +157,6 @@ const TaskPage = () => {
     const newTaskAssignee = task.assignee.filter(
       (user) => user.id !== assigneeId
     );
-    console.log(`newTaskAssignee`, newTaskAssignee);
     updateTask("assignee", newTaskAssignee);
     const currentTask = getCurrentTask(tasks, task_id);
     getAssigneeOptions(currentTask);
@@ -196,55 +194,24 @@ const TaskPage = () => {
           <div>
             <b>Status:</b> {task.done ? "Done" : "In progress"}
           </div>
-          <div>
-            <S.Assignee>
-              <span style={{ flexGrow: 1 }}>
-                <b>Assigned to: </b>
-                {task.assignee &&
-                  task.assignee.map((user) => (
-                    <span key={user.id}>
-                      {user.name}
-                      <S.DeleteBtn
-                        onClick={() => handleDeleteAssignee(user.id)}
-                      >
-                        <S.Img src={close} alt="delete assignee from project" />
-                      </S.DeleteBtn>
-                    </span>
-                  ))}
-              </span>
-              {assigneeOptions.length > 0 && (
-                <S.Button
-                  style={{ margin: 0, width: 130 }}
-                  onClick={() => setShowAddAssigneeForm(!showAddAssigneeForm)}
-                >
-                  Add assignee
-                </S.Button>
-              )}
-            </S.Assignee>
-            {showAddAssigneeForm && assigneeOptions.length > 0 && (
-              <form onSubmit={handleAddAssignee}>
-                <Select
-                  onChange={(option) => setAssignedUsers(option)}
-                  options={assigneeOptions}
-                  isMulti
-                />
-                <S.Button type="submit">Save</S.Button>
-              </form>
-            )}
-          </div>
-          <div>
-            <b>Description:</b>
-            <form onSubmit={handleSubmitDescriprion}>
-              <AutoTextArea
-                textAreaRef={textAreaRef}
-                placeholder="Add description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                onBlur={changeDescription}
-              />
-              <S.Button type="submit">Save</S.Button>
-            </form>
-          </div>
+
+          <TaskAssignee
+            task={task}
+            handleDeleteAssignee={handleDeleteAssignee}
+            assigneeOptions={assigneeOptions}
+            setShowAddAssigneeForm={setShowAddAssigneeForm}
+            showAddAssigneeForm={showAddAssigneeForm}
+            handleAddAssignee={handleAddAssignee}
+            setAssignedUsers={setAssignedUsers}
+          />
+          <TaskDescription
+            handleSubmitDescriprion={handleSubmitDescriprion}
+            placeholder="Add description"
+            description={description}
+            setDescription={setDescription}
+            changeDescription={changeDescription}
+            textAreaRef={textAreaRef}
+          />
         </S.TaskContainer>
       )}
     </SharedStyle.ParentContainer>
