@@ -4,9 +4,13 @@ import * as SharedStyle from "../../pages/AllProjects/style";
 import plus from "../../assets/svg/plus.svg";
 import InviteModal from "../InviteModal/InviteModal";
 import { useAuthContext } from "../../contexts/AuthContext";
+import { useParams } from "react-router-dom";
 const Collaborators = ({ collaborators }) => {
   const [showModal, setShowModal] = useState(false);
   const { currentUser } = useAuthContext();
+
+  let { id } = useParams();
+
   return (
     <S.Collaborators>
       <InviteModal showModal={showModal} setShowModal={setShowModal} />
@@ -14,12 +18,14 @@ const Collaborators = ({ collaborators }) => {
 
       <div>
         <S.BtnContainer>
-          <SharedStyle.ButtonOutline onClick={() => setShowModal(true)}>
-            <div className="d-flex">
-              <img src={plus} alt="add project" />
-              <span className="mx-2"> Invite</span>
-            </div>
-          </SharedStyle.ButtonOutline>
+          {id && (
+            <SharedStyle.ButtonOutline onClick={() => setShowModal(true)}>
+              <div className="d-flex">
+                <img src={plus} alt="add project" />
+                <span className="mx-2"> Invite</span>
+              </div>
+            </SharedStyle.ButtonOutline>
+          )}
         </S.BtnContainer>
         <S.Names>
           {collaborators &&
