@@ -26,3 +26,14 @@ export const TextBox = styled.div`
 export const Text = styled.p`
   margin-bottom: 0;
 `;
+
+export const Assignee = styled.span`
+  width: fit-content;
+  margin: 5px;
+  padding: 3px 7px;
+  border-radius: 15px;
+  font-weight: 400;
+  font-size: 12px;
+  color: ${colors.primary_accent.onColor};
+  background-color: ${colors.primary_accent.color};
+`;
