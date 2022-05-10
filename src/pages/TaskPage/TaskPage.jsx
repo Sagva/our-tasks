@@ -3,7 +3,7 @@ import Collaborators from "../../components/Collaborators/Collaborators";
 import * as S from "./style";
 import * as SharedStyle from "../ProjectPage/style";
 import arrow from "../../assets/svg/arrow.svg";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useProjectContext } from "../../contexts/ProjectContext";
 import { getDateAndTime } from "../../components/utils/utils";
 import { doc, query } from "firebase/firestore";
@@ -14,7 +14,6 @@ import {
 import { db } from "../../firebase";
 import TaskDescription from "../../components/TaskDescription";
 import TaskAssignee from "../../components/TaskAssignee";
-import AutoTextArea from "../../components/AddTaskForm/AutoTextArea";
 import { v4 as uuidv4 } from "uuid";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useQueryClient } from "react-query";
@@ -22,7 +21,8 @@ import TaskComments from "../../components/TaskComments";
 
 const TaskPage = () => {
   const { project_id, task_id } = useParams();
-  const { collaborators, getCollaborators } = useProjectContext();
+  const { collaborators, getCollaborators, hasPermission } =
+    useProjectContext();
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
   const inputRef = useRef();
@@ -216,70 +216,82 @@ const TaskPage = () => {
     setComment("");
   };
 
-  return (
-    <SharedStyle.ParentContainer>
-      <Collaborators collaborators={collaborators} />
-      <SharedStyle.HeaderContainer>
-        <SharedStyle.Header>
-          <SharedStyle.GoBackButton onClick={() => navigate(-1)}>
-            <img src={arrow} alt="go back" />
-          </SharedStyle.GoBackButton>
+  let content = "";
+  if (hasPermission) {
+    content = (
+      <SharedStyle.ParentContainer>
+        <Collaborators collaborators={collaborators} />
+        <SharedStyle.HeaderContainer>
+          <SharedStyle.Header>
+            <SharedStyle.GoBackButton onClick={() => navigate(-1)}>
+              <img src={arrow} alt="go back" />
+            </SharedStyle.GoBackButton>
 
-          <SharedStyle.Name
-            type="text"
-            ref={inputRef}
-            value={taskName}
-            onChange={(e) => setTaskName(e.target.value)}
-            onBlur={changeTaskName}
-            onKeyPress={changeTaskNameOnKeyPress}
-          ></SharedStyle.Name>
-        </SharedStyle.Header>
-      </SharedStyle.HeaderContainer>
-      {task && (
-        <S.TaskContainer>
-          <div className="d-flex">
-            <span className="pe-2 fw-bold">Created:</span>
-            <span>{getDateAndTime(task.created_at)}</span>
-            <span className="px-2 fw-bold">by </span>
-            <span className="pe-2 fw-bold flex-grow-1">
-              {task.addedBy.name}
-            </span>
-            <S.Button onClick={toggleDone} style={{ width: 130 }}>
-              {task.done ? "Back in progress" : "Mark as done"}
-            </S.Button>
-          </div>
-          <div>
-            <b>Status:</b> {task.done ? "Done" : "In progress"}
-          </div>
+            <SharedStyle.Name
+              type="text"
+              ref={inputRef}
+              value={taskName}
+              onChange={(e) => setTaskName(e.target.value)}
+              onBlur={changeTaskName}
+              onKeyPress={changeTaskNameOnKeyPress}
+            ></SharedStyle.Name>
+          </SharedStyle.Header>
+        </SharedStyle.HeaderContainer>
+        {task && (
+          <S.TaskContainer>
+            <div className="d-flex flex-column flex-sm-row">
+              <span className="pe-2 fw-bold">Created:</span>
+              <span className="pe-2">{getDateAndTime(task.created_at)}</span>
 
-          <TaskAssignee
-            task={task}
-            handleDeleteAssignee={handleDeleteAssignee}
-            assigneeOptions={assigneeOptions}
-            setShowAddAssigneeForm={setShowAddAssigneeForm}
-            showAddAssigneeForm={showAddAssigneeForm}
-            handleAddAssignee={handleAddAssignee}
-            setAssignedUsers={setAssignedUsers}
-          />
-          <TaskDescription
-            handleSubmitDescriprion={handleSubmitDescriprion}
-            placeholder="Add description"
-            description={description}
-            setDescription={setDescription}
-            changeDescription={changeDescription}
-            textAreaRef={textAreaRefDescription}
-          />
-          <TaskComments
-            comments={comments}
-            comment={comment}
-            setComment={setComment}
-            handleSubmitComment={handleSubmitComment}
-            textAreaRefComment={textAreaRefComment}
-          />
-        </S.TaskContainer>
-      )}
-    </SharedStyle.ParentContainer>
-  );
+              <span className="pe-2 fw-bold flex-grow-1">
+                by {task.addedBy.name}
+              </span>
+              <S.Button onClick={toggleDone} style={{ width: 130 }}>
+                {task.done ? "Back in progress" : "Mark as done"}
+              </S.Button>
+            </div>
+            <div>
+              <b>Status:</b> {task.done ? "Done" : "In progress"}
+            </div>
+
+            <TaskAssignee
+              task={task}
+              handleDeleteAssignee={handleDeleteAssignee}
+              assigneeOptions={assigneeOptions}
+              setShowAddAssigneeForm={setShowAddAssigneeForm}
+              showAddAssigneeForm={showAddAssigneeForm}
+              handleAddAssignee={handleAddAssignee}
+              setAssignedUsers={setAssignedUsers}
+            />
+            <TaskDescription
+              handleSubmitDescriprion={handleSubmitDescriprion}
+              placeholder="Add description"
+              description={description}
+              setDescription={setDescription}
+              changeDescription={changeDescription}
+              textAreaRef={textAreaRefDescription}
+            />
+            <TaskComments
+              comments={comments}
+              comment={comment}
+              setComment={setComment}
+              handleSubmitComment={handleSubmitComment}
+              textAreaRefComment={textAreaRefComment}
+            />
+          </S.TaskContainer>
+        )}
+      </SharedStyle.ParentContainer>
+    );
+  } else {
+    content = (
+      <div className="container flex justify-content-center">
+        You don't have permission to view that page. View or create your
+        projects <Link to="/projects">here</Link>
+      </div>
+    );
+  }
+
+  return <div>{content}</div>;
 };
 
 export default TaskPage;

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useFirestoreDocument } from "@react-query-firebase/firestore";
 import { doc, query, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -22,6 +22,7 @@ const ProjectPage = () => {
     setTasks,
     fetchedProject,
     setFetchedProject,
+    hasPermission,
   } = useProjectContext();
 
   //set project Id in the Context for using it at other components
@@ -78,57 +79,69 @@ const ProjectPage = () => {
     }
   };
 
-  return (
-    <S.ParentContainer>
-      <Collaborators collaborators={collaborators} />
-      <S.HeaderContainer>
-        <S.Header>
-          <S.GoBackButton onClick={() => navigate(-1)}>
-            <img src={arrow} alt="go back" />
-          </S.GoBackButton>
-          {project.isLoading && <p>Loading...</p>}
+  let content = "";
 
-          {snapshot && (
-            <S.Name
-              type="text"
-              ref={inputRef}
-              autoFocus={!state}
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
-              onBlur={changeProjectName}
-              onKeyPress={handleKeyPress}
-            ></S.Name>
-          )}
-        </S.Header>
-      </S.HeaderContainer>
+  if (hasPermission) {
+    content = (
+      <S.ParentContainer>
+        <Collaborators collaborators={collaborators} />
+        <S.HeaderContainer>
+          <S.Header>
+            <S.GoBackButton onClick={() => navigate(-1)}>
+              <img src={arrow} alt="go back" />
+            </S.GoBackButton>
+            {project.isLoading && <p>Loading...</p>}
 
-      <S.TaskSection>
-        <TaskContainer
-          title="Todo"
-          taskList={fetchedProject?.tasks.filter(
-            (task) => !task.done && !task.assignee.length > 0
-          )}
-          AddTaskForm={AddTaskForm}
-          project={fetchedProject}
-          projectId={projectId}
-        />
-        <TaskContainer
-          title="Ongoing"
-          taskList={fetchedProject?.tasks.filter(
-            (task) => task.assignee.length > 0 && !task.done
-          )}
-          project={fetchedProject}
-          projectId={projectId}
-        />
-        <TaskContainer
-          title="Done"
-          taskList={fetchedProject?.tasks.filter((task) => task.done)}
-          project={fetchedProject}
-          projectId={projectId}
-        />
-      </S.TaskSection>
-    </S.ParentContainer>
-  );
+            {snapshot && (
+              <S.Name
+                type="text"
+                ref={inputRef}
+                autoFocus={!state}
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
+                onBlur={changeProjectName}
+                onKeyPress={handleKeyPress}
+              ></S.Name>
+            )}
+          </S.Header>
+        </S.HeaderContainer>
+
+        <S.TaskSection>
+          <TaskContainer
+            title="Todo"
+            taskList={fetchedProject?.tasks.filter(
+              (task) => !task.done && !task.assignee.length > 0
+            )}
+            AddTaskForm={AddTaskForm}
+            project={fetchedProject}
+            projectId={projectId}
+          />
+          <TaskContainer
+            title="Ongoing"
+            taskList={fetchedProject?.tasks.filter(
+              (task) => task.assignee.length > 0 && !task.done
+            )}
+            project={fetchedProject}
+            projectId={projectId}
+          />
+          <TaskContainer
+            title="Done"
+            taskList={fetchedProject?.tasks.filter((task) => task.done)}
+            project={fetchedProject}
+            projectId={projectId}
+          />
+        </S.TaskSection>
+      </S.ParentContainer>
+    );
+  } else {
+    content = (
+      <div className="container flex justify-content-center">
+        You don't have permission to view that page. View or create your
+        projects <Link to="/projects">here</Link>
+      </div>
+    );
+  }
+  return <div>{content}</div>;
 };
 
 export default ProjectPage;

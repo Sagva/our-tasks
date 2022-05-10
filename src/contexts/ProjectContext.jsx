@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   arrayUnion,
   collection,
@@ -10,6 +10,7 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
+import { useAuthContext } from "./AuthContext";
 
 const ProjectContext = createContext();
 
@@ -18,10 +19,21 @@ const useProjectContext = () => {
 };
 
 const ProjectContextProvider = ({ children }) => {
+  const { currentUser } = useAuthContext();
   const [collaborators, setCollaborators] = useState([]);
   const [projectId, setProjectId] = useState(null);
   const [fetchedProject, setFetchedProject] = useState(null);
   const [tasks, setTasks] = useState(null);
+  const [hasPermission, setHasPermission] = useState(false);
+
+  //to check if the user have permissions to view page
+  useEffect(() => {
+    collaborators.forEach((item) => {
+      if (item.id === currentUser.uid) {
+        setHasPermission(true);
+      }
+    });
+  }, [collaborators]);
 
   const getCollaborators = async (usersId) => {
     let collaborators = [];
@@ -80,6 +92,7 @@ const ProjectContextProvider = ({ children }) => {
     tasks,
     fetchedProject,
     setFetchedProject,
+    hasPermission,
   };
 
   return (
