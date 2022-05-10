@@ -9,7 +9,6 @@ import { NavDropdown } from "react-bootstrap";
 
 const Navigation = () => {
   const { currentUser } = useAuthContext();
-  // console.log(`currentUser`, currentUser);
   return (
     <Navbar expand="md">
       <Container>
@@ -30,11 +29,6 @@ const Navigation = () => {
                   title={currentUser.displayName || currentUser.email}
                   id="basic-nav-dropdown"
                 >
-                  {/* <NavLink to={`/update-profile`} className="dropdown-item">
-                    Update Profile
-                  </NavLink>
-
-                  <NavDropdown.Divider /> */}
                   <NavLink to={`/logout`} className="dropdown-item">
                     Log Out
                   </NavLink>
