@@ -6,30 +6,59 @@ import arrow from "../../assets/svg/arrow.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProjectContext } from "../../contexts/ProjectContext";
 import { getDateAndTime } from "../../components/utils/utils";
-import { doc } from "firebase/firestore";
-import { useFirestoreDocumentMutation } from "@react-query-firebase/firestore";
+import { doc, query } from "firebase/firestore";
+import {
+  useFirestoreDocument,
+  useFirestoreDocumentMutation,
+} from "@react-query-firebase/firestore";
 import { db } from "../../firebase";
 import TaskDescription from "../../components/TaskDescription";
 import TaskAssignee from "../../components/TaskAssignee";
+import AutoTextArea from "../../components/AddTaskForm/AutoTextArea";
+import { v4 as uuidv4 } from "uuid";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { useQueryClient } from "react-query";
+import TaskComments from "../../components/TaskComments";
 
 const TaskPage = () => {
   const { project_id, task_id } = useParams();
-  const { collaborators, tasks } = useProjectContext();
+  const { collaborators, getCollaborators } = useProjectContext();
+  const { currentUser } = useAuthContext();
   const navigate = useNavigate();
-
   const inputRef = useRef();
-  const textAreaRef = useRef(null);
+  const textAreaRefDescription = useRef(null);
+  const textAreaRefComment = useRef(null);
+
+  const queryClient = useQueryClient();
+  const ref = doc(db, "projects", project_id);
+  const queryRef = query(ref);
+  const project = useFirestoreDocument(
+    ["project", project_id],
+    queryRef,
+    {
+      idField: "id",
+      subscribe: true,
+    },
+    {
+      refetchOnMount: "always",
+    }
+  );
+  const snapshot = project.data;
 
   const [taskName, setTaskName] = useState("");
-  const [description, setDescription] = useState("");
   const [task, setTask] = useState();
+  const [tasks, setTasks] = useState("");
+  const [description, setDescription] = useState("");
+  const [comments, setComments] = useState("");
+  const [comment, setComment] = useState("");
   const [assignedUsers, setAssignedUsers] = useState([]);
   const [assigneeOptions, setAssigneeOptions] = useState([]);
   const [showAddAssigneeForm, setShowAddAssigneeForm] = useState(false);
-
-  const ref = doc(db, "projects", project_id);
   const mutation = useFirestoreDocumentMutation(ref, {
     merge: true,
+    onSuccess: () => {
+      queryClient.invalidateQueries("project");
+    },
   });
 
   const getAssigneeOptions = (currentTask) => {
@@ -57,20 +86,22 @@ const TaskPage = () => {
   };
 
   useEffect(() => {
-    if (tasks && collaborators) {
-      let currentTask = getCurrentTask(tasks, task_id);
-
+    if (snapshot) {
+      let currentTask = getCurrentTask(snapshot.data().tasks, task_id);
+      getCollaborators(snapshot.data().accessList);
       setTask(currentTask);
+      setTasks(snapshot.data().tasks);
       setTaskName(currentTask.title);
       setDescription(currentTask.description);
       setAssignedUsers(currentTask.assignee);
       getAssigneeOptions(currentTask);
+      setComments(currentTask.comments);
     }
-  }, [tasks, collaborators]);
+  }, [snapshot]);
 
   const handleSubmitDescriprion = async (e) => {
     e.preventDefault();
-    updateTask("description", textAreaRef.current.value);
+    updateTask("description", textAreaRefDescription.current.value);
   };
 
   const updateTask = (key, newValue) => {
@@ -149,9 +180,6 @@ const TaskPage = () => {
     getAssigneeOptions(currentTask);
     setShowAddAssigneeForm(false);
   };
-  const findUserName = (userID) => {
-    return collaborators.filter((person) => person.id === userID)[0].name;
-  };
 
   const handleDeleteAssignee = (assigneeId) => {
     const newTaskAssignee = task.assignee.filter(
@@ -160,6 +188,32 @@ const TaskPage = () => {
     updateTask("assignee", newTaskAssignee);
     const currentTask = getCurrentTask(tasks, task_id);
     getAssigneeOptions(currentTask);
+  };
+
+  const handleSubmitComment = (e) => {
+    e.preventDefault();
+    if (!textAreaRefComment.current.value) {
+      return;
+    }
+    const commentToAdd = {
+      author: { id: currentUser.uid, name: currentUser.displayName },
+      content: textAreaRefComment.current.value,
+      id: uuidv4(),
+      createdAt: Date.now(),
+    };
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].task_id === task_id) {
+        tasks[i][`comments`].push(commentToAdd);
+      }
+    }
+    try {
+      mutation.mutate({
+        tasks: [...tasks],
+      });
+    } catch (err) {
+      console.log(err);
+    }
+    setComment("");
   };
 
   return (
@@ -183,14 +237,17 @@ const TaskPage = () => {
       </SharedStyle.HeaderContainer>
       {task && (
         <S.TaskContainer>
-          <div>
-            <b>Created:</b> {getDateAndTime(task.created_at)} <b>by </b>
-            {findUserName(task.addedBy)}{" "}
+          <div className="d-flex">
+            <span className="pe-2 fw-bold">Created:</span>
+            <span>{getDateAndTime(task.created_at)}</span>
+            <span className="px-2 fw-bold">by </span>
+            <span className="pe-2 fw-bold flex-grow-1">
+              {task.addedBy.name}
+            </span>
             <S.Button onClick={toggleDone} style={{ width: 130 }}>
               {task.done ? "Back in progress" : "Mark as done"}
             </S.Button>
           </div>
-          <div></div>
           <div>
             <b>Status:</b> {task.done ? "Done" : "In progress"}
           </div>
@@ -210,7 +267,14 @@ const TaskPage = () => {
             description={description}
             setDescription={setDescription}
             changeDescription={changeDescription}
-            textAreaRef={textAreaRef}
+            textAreaRef={textAreaRefDescription}
+          />
+          <TaskComments
+            comments={comments}
+            comment={comment}
+            setComment={setComment}
+            handleSubmitComment={handleSubmitComment}
+            textAreaRefComment={textAreaRefComment}
           />
         </S.TaskContainer>
       )}

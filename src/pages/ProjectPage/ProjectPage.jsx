@@ -15,8 +15,14 @@ const ProjectPage = () => {
   const { state } = useLocation(); //to make input in focus only if user redirects first time
   const navigate = useNavigate();
 
-  const { setProjectId, collaborators, getCollaborators, setTasks } =
-    useProjectContext();
+  const {
+    setProjectId,
+    collaborators,
+    getCollaborators,
+    setTasks,
+    fetchedProject,
+    setFetchedProject,
+  } = useProjectContext();
 
   //set project Id in the Context for using it at other components
   useEffect(() => {
@@ -26,7 +32,6 @@ const ProjectPage = () => {
   //to rename project
   const inputRef = useRef();
   const [projectName, setProjectName] = useState("");
-  const [fetchedProject, setFetchedProject] = useState(null);
 
   // to get the data about project from db
   const ref = doc(db, "projects", projectId);

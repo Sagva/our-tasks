@@ -38,7 +38,7 @@ const TaskContainer = ({
       description: "",
       comments: [],
       assignee: [],
-      addedBy: currentUser.uid,
+      addedBy: { id: currentUser.uid, name: currentUser.displayName },
       created_at: Date.now(),
       done: false,
     };

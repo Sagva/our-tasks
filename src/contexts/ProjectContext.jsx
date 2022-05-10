@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import {
   arrayUnion,
   collection,
@@ -20,6 +20,7 @@ const useProjectContext = () => {
 const ProjectContextProvider = ({ children }) => {
   const [collaborators, setCollaborators] = useState([]);
   const [projectId, setProjectId] = useState(null);
+  const [fetchedProject, setFetchedProject] = useState(null);
   const [tasks, setTasks] = useState(null);
 
   const getCollaborators = async (usersId) => {
@@ -38,7 +39,6 @@ const ProjectContextProvider = ({ children }) => {
   //to invite colaborators
   const inviteCollaborators = async (email) => {
     const ref = doc(db, "projects", projectId);
-    console.log(`email`, email);
     let message = {};
 
     //to check if the email is registered at OurTasks
@@ -46,7 +46,6 @@ const ProjectContextProvider = ({ children }) => {
     let collaboratorsID;
     if (methods.length) {
       // The email exists in the Auth database.
-      console.log(`inside email exist`);
       //find user by email
       const q = query(collection(db, "users"), where("email", "==", email));
 
@@ -56,7 +55,6 @@ const ProjectContextProvider = ({ children }) => {
         collaboratorsID = doc.id;
       });
 
-      console.log(`collaboratorsID`, collaboratorsID);
       //add the user's ID to accesList array
       await updateDoc(ref, {
         accessList: arrayUnion(collaboratorsID),
@@ -80,6 +78,8 @@ const ProjectContextProvider = ({ children }) => {
     projectId,
     setTasks,
     tasks,
+    fetchedProject,
+    setFetchedProject,
   };
 
   return (

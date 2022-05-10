@@ -51,3 +51,29 @@ export const Assignee = styled.div`
   margin: 0.5rem 0;
   display: flex;
 `;
+
+export const CommentList = styled.ul`
+  padding: 0;
+  list-style-type: none;
+  color: ${colors.dark_gray.color};
+`;
+export const Comment = styled.p`
+  background-color: #fff;
+  padding: 0.5rem;
+
+  border-radius: 7px;
+  width: 100%;
+`;
+export const Author = styled.span`
+  display: inline-block;
+  margin: 0 5px 5px 0;
+  padding: 3px 7px;
+  border-radius: 15px;
+  font-weight: 400;
+  font-size: 12px;
+  color: ${colors.primary_accent.onColor};
+  background-color: ${colors.primary_accent.color};
+`;
+export const Time = styled.span`
+  font-size: 12px;
+`;
