@@ -5,6 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useAuthContext } from "../contexts/AuthContext";
 import logoName from "../assets/svg/logoName.svg";
+import user from "../assets/svg/user.svg";
 import { NavDropdown } from "react-bootstrap";
 
 const Navigation = () => {
@@ -25,9 +26,19 @@ const Navigation = () => {
             {currentUser && (
               <>
                 <NavDropdown
-                  variant="dark"
-                  title={currentUser.displayName || currentUser.email}
+                  title={
+                    <span className="pull-left">
+                      <img
+                        className="thumbnail-image me-2"
+                        src={user}
+                        alt="user pic"
+                      />
+
+                      {currentUser.displayName || currentUser.email}
+                    </span>
+                  }
                   id="basic-nav-dropdown"
+                  className="bg-light rounded font-weight-bold"
                 >
                   <NavLink to={`/logout`} className="dropdown-item">
                     Log Out
