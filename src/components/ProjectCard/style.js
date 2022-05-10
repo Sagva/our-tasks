@@ -8,7 +8,7 @@ export const Card = styled.div`
   height: 7rem;
   border-radius: 0.5rem;
   padding: 1rem 1.5rem;
-  margin: 1rem 1.5rem;
+  margin: 1rem 1.5rem 1rem 0;
   text-align: center;
   background-color: ${colors.background.color};
   transition: all 0.2s;

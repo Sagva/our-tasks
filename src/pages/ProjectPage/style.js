@@ -7,6 +7,7 @@ export const ParentContainer = styled.div`
   grid-template-rows: 50px min-content 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+  color: ${colors.primary_variant.onColor};
 
   @media (min-width: 750px) {
     grid-template-columns: 280px 1fr;
@@ -37,6 +38,7 @@ export const Name = styled.input`
   font-weight: 500;
   border: none;
   outline: none;
+  color: ${colors.primary_variant.onColor};
 `;
 export const GoBackButton = styled.div`
   display: inline-block;

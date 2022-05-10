@@ -42,11 +42,9 @@ export const Paragraph = styled.p`
   width: fit-content;
   margin: 5px;
   padding: 5px 10px;
-  border-radius: 10px;
-  color: ${(props) => (props.currentUser ? `white` : `black`)};
+  border-radius: 15px;
+  font-weight: 400;
+  color: ${(props) => (props.currentUser ? `#ffffffCC` : `#0942ADCC`)};
   background-color: ${(props) =>
-    props.currentUser ? `#0942ADCC` : `#ffffffCC`};
-
-  @media (min-width: 750px) {
-  }
+    props.currentUser ? `#0942ADCC` : `#ffffffCC`}; 
 `;

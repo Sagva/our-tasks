@@ -5,7 +5,7 @@
   },
   "primary_variant": {
     "color": "#BECDE8",
-    "onColor": "##0f0f0f"
+    "onColor": "#404040"
   },
   "primary_accent": {
     "color": "#719ece",
@@ -34,6 +34,10 @@
   },
   "light_gray": {
     "color": " #c9c9ca",
+    "onColor": "#0f0f0f"
+  },
+  "dark_gray": {
+    "color": " #737373",
     "onColor": "#0f0f0f"
   }
 }

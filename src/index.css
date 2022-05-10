@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
 }
 
 code {
@@ -21,10 +22,18 @@ code {
 }
 
 .App {
-  height: 100vh;
-  background: url("./assets/images/bg.jpg") no-repeat center center fixed;
+  background-image: url("./assets/images/bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
 }
 
 @media (min-width: 1150px) {

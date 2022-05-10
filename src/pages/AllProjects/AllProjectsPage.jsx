@@ -44,7 +44,7 @@ const AllProjectsPage = () => {
           <S.Heading>Your projects</S.Heading>
         </div>
       </S.ProjectsHeader>
-      <div className="d-flex flex-column flex-md-row mt-4 flex-wrap">
+      <div className="d-flex flex-column flex-md-row mt-4 flex-wrap align-items-center">
         {projectQuery.isLoading && <p>Loading...</p>}
         {projectQuery.data && (
           <>

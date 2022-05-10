@@ -6,8 +6,13 @@ export const TaskContainer = styled.div`
   background-color: ${colors.background.color};
   padding: 1rem 1.5rem;
   border-radius: 0.5rem;
-  grid-area: 2 / 1 / 2 / 3;
-  margin: 0 auto;
+  overflow-y: scroll;
+  height: 70vh;
+  margin: 2rem auto;
+
+  @media (min-width: 1150px) {
+    width: 50%;
+  }
 `;
 
 export const Button = styled.button`
