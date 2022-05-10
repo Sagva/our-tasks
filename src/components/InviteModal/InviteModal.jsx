@@ -50,7 +50,14 @@ const InviteModal = (props) => {
             value={email}
           />
           <S.Message>Email must be registered at OurTasks</S.Message>
-          {message && <Alert variant={message.type}>{message.text}</Alert>}
+          {message && (
+            <Alert variant={message.type}>
+              {message.text}
+              <S.Button type="button" onClick={() => setShowModal(false)}>
+                OK
+              </S.Button>
+            </Alert>
+          )}
         </div>
         {!message && <S.Button type="submit">invite</S.Button>}
       </form>
