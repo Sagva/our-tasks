@@ -24,7 +24,9 @@ const TaskContainer = ({
   });
 
   const handleClick = (task) => {
-    navigate(`/project/${projectId}/task/${task.task_id}`);
+    navigate(
+      `${process.env.PUBLIC_URL}/project/${projectId}/task/${task.task_id}`
+    );
   };
 
   const submitHandler = (taskTitle) => {

@@ -14,7 +14,11 @@ const Navigation = () => {
     <Navbar expand="md">
       <Container>
         <Link
-          to={currentUser ? "/projects" : "/login"}
+          to={
+            currentUser
+              ? `${process.env.PUBLIC_URL}/rojects`
+              : `${process.env.PUBLIC_URL}/login`
+          }
           className="navbar-brand"
         >
           <img src={logoName} alt="logo" style={{ width: 150 }} />
@@ -40,7 +44,10 @@ const Navigation = () => {
                   id="basic-nav-dropdown"
                   className="bg-light rounded font-weight-bold"
                 >
-                  <NavLink to={`/logout`} className="dropdown-item">
+                  <NavLink
+                    to={`${process.env.PUBLIC_URL}/logout`}
+                    className="dropdown-item"
+                  >
                     Log Out
                   </NavLink>
                 </NavDropdown>

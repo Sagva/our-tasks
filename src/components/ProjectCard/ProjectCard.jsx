@@ -6,8 +6,9 @@ const ProjectCard = ({ project }) => {
   const navigate = useNavigate();
 
   const handleClick = (project) => {
-   
-    navigate(`/project/${project.id}`, {state: {isClicked: true}});
+    navigate(`${process.env.PUBLIC_URL}/project/${project.id}`, {
+      state: { isClicked: true },
+    });
   };
   return <S.Card onClick={() => handleClick(project)}>{project.name}</S.Card>;
 };

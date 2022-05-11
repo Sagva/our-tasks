@@ -20,7 +20,7 @@ const LoginPage = () => {
     try {
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
-      navigate(`/projects`);
+      navigate(`${process.env.PUBLIC_URL}/projects`);
     } catch (e) {
       setError(e.message);
       setLoading(false);
@@ -58,13 +58,17 @@ const LoginPage = () => {
                   </S.ButtonOutline>
 
                   <S.ButtonSolid>
-                    <Link to={`/signup`}>Register</Link>
+                    <Link to={`${process.env.PUBLIC_URL}/signup`}>
+                      Register
+                    </Link>
                   </S.ButtonSolid>
                 </div>
               </Form>
 
               <div className="text-center mt-3">
-                <Link to={`/forgot-password`}>Forgot Password?</Link>
+                <Link to={`${process.env.PUBLIC_URL}/forgot-password`}>
+                  Forgot Password?
+                </Link>
               </div>
             </Card.Body>
           </Card>

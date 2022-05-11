@@ -28,7 +28,7 @@ const AllProjectsPage = () => {
       id: projectData.id,
     });
 
-    navigate(`/project/${projectData.id}`);
+    navigate(`${process.env.PUBLIC_URL}/project/${projectData.id}`);
   };
 
   return (

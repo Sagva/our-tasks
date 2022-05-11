@@ -137,7 +137,7 @@ const ProjectPage = () => {
     content = (
       <div className="container flex justify-content-center">
         You don't have permission to view that page. View or create your
-        projects <Link to="/projects">here</Link>
+        projects <Link to={`${process.env.PUBLIC_URL}/projects`}>here</Link>
       </div>
     );
   }

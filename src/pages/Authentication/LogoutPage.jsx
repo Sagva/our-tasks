@@ -12,7 +12,7 @@ const LogoutPage = () => {
   useEffect(async () => {
     await logout();
     queryClient.removeQueries("projects");
-    navigate(`/login`);
+    navigate(`${process.env.PUBLIC_URL}/login`);
   }, []);
 
   return (

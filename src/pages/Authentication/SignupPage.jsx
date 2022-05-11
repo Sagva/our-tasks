@@ -33,7 +33,7 @@ const SignupPage = () => {
         passwordRef.current.value,
         nameRef.current.value
       );
-      navigate(`/projects`);
+      navigate(`${process.env.PUBLIC_URL}/projects`);
     } catch (e) {
       setError(e.message);
       setLoading(false);
@@ -85,13 +85,13 @@ const SignupPage = () => {
                     Register
                   </S.ButtonOutline>
                   <S.ButtonSolid>
-                    <Link to={`/login`}>Log In</Link>
+                    <Link to={`${process.env.PUBLIC_URL}/login`}>Log In</Link>
                   </S.ButtonSolid>
                 </div>
               </Form>
 
               <div className="text-center mt-3">
-                <Link to={`/forgot-password`}>Forgot Password?</Link>
+                <Link to={`${process.env.PUBLIC_URL}/forgot-password`}>Forgot Password?</Link>
               </div>
             </Card.Body>
           </Card>
