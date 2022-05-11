@@ -9,13 +9,13 @@ const TaskAssignee = ({
   setShowAddAssigneeForm,
   showAddAssigneeForm,
   handleAddAssignee,
-  setAssignedUsers
+  setAssignedUsers,
 }) => {
   return (
     <div>
       <S.Assignee>
         <span style={{ flexGrow: 1 }}>
-          <b>Assigned to: </b>
+          <span className="pe-2 fw-bold">Assigned to: </span>
           {task.assignee &&
             task.assignee.map((user) => (
               <span key={user.id}>

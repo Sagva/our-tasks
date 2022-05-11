@@ -22,6 +22,7 @@ export const Collaborators = styled.div`
 `;
 export const BtnContainer = styled.div`
   border-bottom: 1px solid ${colors.background.color};
+  padding-top: 0.5rem;
   @media (min-width: 700px) {
     border-top: 1px solid ${colors.background.color};
     border-bottom: none;
@@ -46,5 +47,5 @@ export const Paragraph = styled.p`
   font-weight: 400;
   color: ${(props) => (props.currentUser ? `#ffffffCC` : `#0942ADCC`)};
   background-color: ${(props) =>
-    props.currentUser ? `#0942ADCC` : `#ffffffCC`}; 
+    props.currentUser ? `#0942ADCC` : `#ffffffCC`};
 `;
