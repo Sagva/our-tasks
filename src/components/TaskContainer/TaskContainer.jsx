@@ -50,23 +50,27 @@ const TaskContainer = ({
       console.log(err);
     }
   };
-  return (
+  return taskList.length > 0 || AddTaskForm ? (
     <S.Wrapper>
       <S.Header>{title}</S.Header>
-      <div style={{ overflowY: "auto", height: "50vh" }}>
+      <div
+        style={{
+          overflowY: "auto",
+          maxHeight: "50vh",
+        }}
+      >
         {filter && filter}
-        {taskList &&
-          taskList.map((task, index) => {
-            return (
-              <div key={`${task}-${index}`} onClick={() => handleClick(task)}>
-                <TaskPreviewCard task={task} />
-              </div>
-            );
-          })}
+        {taskList.map((task, index) => {
+          return (
+            <div key={`${task}-${index}`} onClick={() => handleClick(task)}>
+              <TaskPreviewCard task={task} />
+            </div>
+          );
+        })}
       </div>
       {AddTaskForm && <AddTaskForm submitHandler={submitHandler} />}
     </S.Wrapper>
-  );
+  ) : null;
 };
 
 export default TaskContainer;

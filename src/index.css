@@ -22,22 +22,17 @@ code {
 }
 
 .App {
-  background-image: url("./assets/images/bg.jpg");
+  background-image: linear-gradient(to bottom, #9c9c9c51, #e3e1e153),
+    url("./assets/images/bg.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
-
+  background-position: 0% 0%;
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   overflow-y: auto;
-}
-
-@media (min-width: 1150px) {
-  .App {
-    background-position: 0% 0%;
-  }
 }

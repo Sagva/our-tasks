@@ -11,14 +11,20 @@ import AllProjectsPage from "./pages/AllProjects/AllProjectsPage";
 import RequireAuth from "./components/RequireAuth";
 import ProjectPage from "./pages/ProjectPage/ProjectPage";
 import TaskPage from "./pages/TaskPage/TaskPage";
+import { useAuthContext } from "./contexts/AuthContext";
 
 function App() {
+  const { currentUser } = useAuthContext();
   return (
     <div className="App">
       <Navbar />
       <div className="py-3">
         <Routes>
           {/* Guest routes */}
+          <Route
+            path={`/`}
+            element={currentUser ? <AllProjectsPage /> : <LoginPage />}
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path={`/forgot-password`} element={<ForgotPasswordPage />} />

@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
   box-shadow: 0px 5px 13px -7px ${colors.primary_accent.color};
 
   &:hover {
-    background-color: #c9c9ca6e;
+    background-color: #e8dbbedd;
     cursor: pointer;
   }
 `;

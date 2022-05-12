@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 const AllProjectsPage = () => {
   const { currentUser } = useAuthContext();
   const projectQuery = useProjects(currentUser.uid);
-
   const navigate = useNavigate();
 
   const handleClick = async () => {

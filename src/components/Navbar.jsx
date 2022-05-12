@@ -11,7 +11,7 @@ import { NavDropdown } from "react-bootstrap";
 const Navigation = () => {
   const { currentUser } = useAuthContext();
   return (
-    <Navbar expand="md">
+    <Navbar expand="sm">
       <Container>
         <Link
           to={currentUser ? "/projects" : "/login"}
@@ -38,7 +38,7 @@ const Navigation = () => {
                     </span>
                   }
                   id="basic-nav-dropdown"
-                  className="bg-light rounded font-weight-bold"
+                  className="bg-light rounded font-weight-bold px-2 py-1"
                 >
                   <NavLink to={`/logout`} className="dropdown-item">
                     Log Out
